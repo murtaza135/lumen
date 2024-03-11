@@ -1,0 +1,296 @@
+.input::placeholder {
+  opacity: 0.7;
+}
+
+.form {
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+}
+
+@media (max-width: 30em) {
+  .form {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+}
+
+.spinner-negative-margin {
+  margin-bottom: -0.15rem;
+}
+
+.nav-root {
+  min-height: 70px;
+  z-index: 50;
+}
+
+.nav-link-item {
+  transition: opacity 0.2s ease;
+}
+
+.nav-link-item:hover {
+  opacity: 60%;
+}
+
+.nav-link-item.active {
+  border-bottom: 2px solid white;
+  transform: translateY(1px);
+}
+
+.nav-logo {
+  width: 1.75rem;
+  transform: translateY(3px);
+}
+
+.dashboard-nav {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding-block: 0;
+}
+
+@media (min-width: 576px) {
+  .dashboard-nav {
+    flex-direction: row;
+  }
+}
+
+.dashboard-nav li.active {
+  border-bottom: 2px solid #117a88;
+  padding-bottom: 0.25rem;
+}
+
+.dashboard-nav li.active > .nav-link {
+  transform: translateY(1px);
+}
+
+.dashboard-nav .nav-links {
+  transform: translateY(0.5rem);
+}
+
+.dashboard-nav .nav-link {
+  padding: 0;
+  margin: 0.5rem 0.25rem;
+}
+
+.dashboard-nav-search {
+  transform: translateY(0.5rem);
+}
+
+.dashboard-add-button {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.75rem;
+}
+
+@media (min-width: 1375px) {
+  .dashboard-add-button {
+    right: calc(50% - calc(1375px / 2) + 1rem);
+  }
+}
+
+.dashboard-add-modal {
+  display: none;
+  position: fixed;
+  z-index: 60;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 30rem;
+  width: 100%;
+  height: 80vh;
+}
+
+@media (max-height: 760px) {
+  .dashboard-add-modal {
+    height: 80vh;
+  }
+}
+
+.dashboard-add-modal.h-auto {
+  height: auto;
+}
+
+.dashboard-add-modal.show {
+  display: block;
+}
+
+.dashboard-add-modal-content {
+  position: relative;
+  width: 100%;
+  min-height: 10rem;
+  height: 100%;
+  border-radius: 10px;
+  overflow: scroll;
+}
+
+.dashboard-add-modal-close-button {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.75rem;
+}
+
+.login-form {
+  max-width: 25rem;
+}
+
+.register-form {
+  max-width: 25rem;
+}
+
+.login-form-submit-button {
+  margin-top: 0.5rem;
+}
+
+.login-form-register-link {
+  transition: opacity 0.2s ease;
+}
+
+.login-form-register-link:hover {
+  opacity: 0.7;
+}
+
+.error-toast {
+  max-width: 22.5rem;
+  width: 100%;
+}
+
+.error-text {
+  max-width: 30rem;
+  width: 100%;
+}
+
+.mainFlex {
+  display: flex;
+  gap: 5rem;
+}
+
+.leftFlex {
+  flex: 1;
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+}
+
+.LogoFlex {
+  display: flex;
+  justify-content: center;
+  padding: 30px;
+  gap: 0.5rem;
+}
+
+.rightFlex {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.get-started {
+  padding: 15px;
+  color: white;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 32px;
+}
+
+@media (max-width: 1100px) {
+  .mainFlex {
+    display: flex;
+    gap: 5rem;
+    flex-direction: column;
+  }
+}
+
+.searchInput.active .resultBox {
+  padding: 10px 8px;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.searchInput.active .resultBox li {
+  display: block;
+}
+
+.resultBox li {
+  list-style: none;
+  padding: 8px 12px;
+  display: none;
+  width: 100%;
+  cursor: default;
+  border-radius: 3px;
+}
+
+.searchInput .resultBox {
+  padding: 0;
+  opacity: 0;
+  pointer-events: none;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+input::-webkit-input-placeholder {
+  opacity: 0.55;
+}
+
+input::-ms-input-placeholder {
+  opacity: 0.55;
+}
+
+input:-ms-input-placeholder {
+  opacity: 0.55;
+}
+
+input::-moz-placeholder {
+  opacity: 0.55;
+}
+
+input:-moz-placeholder {
+  opacity: 0.55;
+}
+
+input::placeholder {
+  opacity: 0.55;
+}
+
+.backdrop {
+  display: none;
+  background-color: transparent;
+  backdrop-filter: blur(2px);
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 60;
+  overflow: hidden;
+}
+
+.backdrop.show {
+  display: block;
+}
+
+.group-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+@media (min-width: 576px) {
+  .group-details {
+    flex-direction: row;
+  }
+}
+
+.group-details-buttons {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+@media (min-width: 576px) {
+  .group-details-buttons {
+    margin-left: auto;
+  }
+}

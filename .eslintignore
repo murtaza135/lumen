@@ -1,0 +1,9 @@
+dist/
+build/
+coverage/
+node_modules/
+public/
+framework/
+.vscode/
+vite.config.ts
+postcss.config.js

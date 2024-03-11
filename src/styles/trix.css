@@ -1,0 +1,27 @@
+trix-toolbar .trix-button-row {
+  justify-content: flex-start;
+}
+
+trix-toolbar .trix-button-row > .trix-button-group:nth-child(3) {
+  display: none;
+}
+
+trix-toolbar .trix-button-row > .trix-button-group-spacer {
+  display: none;
+}
+
+trix-editor {
+  min-height: 100%;
+}
+
+trix-editor > ul {
+  list-style: disc;
+}
+
+trix-editor > ol {
+  list-style: decimal;
+}
+
+trix-editor > em {
+  font-style: italic;
+}

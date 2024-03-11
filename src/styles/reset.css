@@ -1,0 +1,40 @@
+@import "../../node_modules/the-new-css-reset/css/reset.css";
+
+/* No initial margin and padding */
+*,
+*::before,
+*::after {
+  padding: 0;
+  margin: 0;
+}
+
+/* Smooth Scrolling */
+body {
+  scroll-behavior: smooth;
+}
+
+/* min-height 100vh */
+body,
+#root {
+  min-height: 100vh;
+}
+
+/* no anchor text docoration */
+a {
+  text-decoration: none;
+}
+
+/* remove padding and margin on p */
+p {
+  padding: 0;
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-bottom: 0;
+}

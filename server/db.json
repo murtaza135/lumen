@@ -1,0 +1,82 @@
+{
+  "users": [
+    {
+      "email": "person1@test.com",
+      "password": "$2a$10$/d2pcuSIx9COyA1Ys6qYc.Ey9PHcAZc2WMfTk4XOHa51TW89b4H8S",
+      "firstName": "person1",
+      "lastName": "person1",
+      "id": 1
+    },
+    {
+      "email": "john@test.com",
+      "password": "$2a$10$4jFg7nBNil/fxDqVTIiBpOw2uirXnXrgPl7IAs0.WjjWBVtNa0Bqu",
+      "firstName": "John",
+      "lastName": "Doe",
+      "id": 2
+    }
+  ],
+  "recent": [
+    {
+      "title": "John sent you a message",
+      "subtitle": "Hi, how are you?"
+    },
+    {
+      "title": "Mary commented on your file",
+      "subtitle": "This looks good."
+    },
+    {
+      "title": "Allie sent you a message",
+      "subtitle": "Can you do that for me?"
+    },
+    {
+      "title": "Jane sent you a message",
+      "subtitle": "Nice!"
+    }
+  ],
+  "friends": [
+    {
+      "id": 1,
+      "name": "John Doe",
+      "timeLastSeen": "2024/01/01"
+    },
+    {
+      "id": 2,
+      "name": "Mary Wilson",
+      "timeLastSeen": "3 hours"
+    },
+    {
+      "id": 3,
+      "name": "Jane Doe",
+      "timeLastSeen": "1 week"
+    },
+    {
+      "id": 4,
+      "name": "Allie Meyers",
+      "timeLastSeen": "2024/01/01"
+    }
+  ],
+  "friend-requests": [
+    {
+      "id": 5,
+      "name": "Sarah Meyers",
+      "timeLastSeen": "2024/01/01"
+    }
+  ],
+  "groups": [
+    {
+      "id": 1,
+      "name": "Lumen",
+      "timeLastSeen": "6 days"
+    },
+    {
+      "id": 2,
+      "name": "Dogs",
+      "timeLastSeen": "6 hours"
+    },
+    {
+      "id": 3,
+      "name": "Cats",
+      "timeLastSeen": "3 weeks"
+    }
+  ]
+}

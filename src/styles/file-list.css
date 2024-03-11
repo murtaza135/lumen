@@ -1,0 +1,22 @@
+.file-list-page-height {
+  height: calc(100vh - 70px - 2rem);
+}
+
+.file-list-main-content {
+  padding-left: 0rem;
+  padding-right: 0.5rem;
+}
+
+@media (min-width: 576px) {
+  .file-list-main-content {
+    padding-left: 1.5rem;
+    padding-right: 1rem;
+  }
+}
+
+.file-list-item-timestamp {
+  color: #666;
+  font-size: 0.7rem;
+  font-weight: 500;
+  transform: translateY(-1px);
+}
