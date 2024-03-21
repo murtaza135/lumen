@@ -334,3 +334,22 @@
   align-self: flex-end;
   transform: translateY(-1px);
 }
+
+.chat-message-file-item {
+  height: min(50vh, 100px);
+  width: min(50vh, 100px);
+  padding-top: 4rem;
+  overflow-y: auto;
+}
+
+.chat-message-image {
+  max-height: min(50vh, 150px);
+  max-width: 100%;
+  object-fit: scale-down;
+  align-self: flex-start;
+}
+
+.chat-message-download-button {
+  align-self: flex-start;
+  transform: translate(12px, 0px);
+}

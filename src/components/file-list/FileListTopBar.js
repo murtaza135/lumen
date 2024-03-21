@@ -13,6 +13,7 @@ export class FileListTopBar extends BaseComponent {
     this.uploadFile = this.mutation(uploadFileMutation());
     this.listFiles = this.query(groupFriendFilesQuery());
     this.error = this.slice('error');
+    this.chatFriendsGroups = this.slice('chatFriendsGroups');
   }
 
   render() {
@@ -62,6 +63,7 @@ export class FileListTopBar extends BaseComponent {
       const parsedFile = fileExt === 'txt' ? new File([textToTrix(await file.text())], `${fileNameWithoutExt}.trix`, { type: 'text/plain' }) : file;
       const formData = new FormData();
       formData.append('file', parsedFile);
+      formData.append('group_id', this.chatFriendsGroups.state.activeFriendOrGroup.id);
 
       await this.uploadFile.actions.mutate(formData);
 

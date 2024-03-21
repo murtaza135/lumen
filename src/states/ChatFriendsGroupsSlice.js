@@ -4,7 +4,7 @@ export class ChatFriendsGroupsSlice extends StateSlice {
   constructor() {
     const state = {
       activeTab: 'groups',
-      activeFriendOrGroup: '',
+      activeFriendOrGroup: { id: null, name: null },
     };
 
     super(state);

@@ -9,6 +9,7 @@ export class AddFileModal extends BaseComponent {
     this.addFileModal = this.slice('addFileModal');
     this.uploadFile = this.mutation(uploadFileMutation());
     this.error = this.slice('error');
+    this.chatFriendsGroups = this.slice('chatFriendsGroups');
   }
 
   render() {
@@ -57,6 +58,7 @@ export class AddFileModal extends BaseComponent {
     const file = new File([trixInitialJSON], `${fileName}.trix`, { type: 'text/plain' });
     const formData = new FormData();
     formData.append('file', file);
+    formData.append('group_id', this.chatFriendsGroups.state.activeFriendOrGroup.id);
 
     await this.uploadFile.actions.mutate(formData);
 

@@ -2,13 +2,13 @@
 import { BaseComponent, html, history } from 'framework';
 import { download } from '@/utils/download';
 import { uploadFileMutation } from '@/api/files/uploadFileMutation';
+import { replaceFileMutation } from '@/api/files/replaceFileMutation';
 import { downloadFileQuery } from '@/api/files/downloadFileQuery';
 import 'trix';
 import 'trix/dist/trix.css';
 import '@/styles/trix.css';
 
 // TODO update/replace file
-// TODO filename replacement
 
 export class FileTextEditor extends BaseComponent {
   constructor() {
@@ -16,6 +16,7 @@ export class FileTextEditor extends BaseComponent {
     this.fileId = history.data.params.id;
     this.trixRef = this.ref('trix');
     this.downloadFile = this.query(downloadFileQuery(this.fileId, { type: 'text' }));
+    this.replaceFile = this.mutation(replaceFileMutation(this.fileId));
     this.uploadFile = this.mutation(uploadFileMutation());
     this.error = this.slice('error');
   }
@@ -26,7 +27,7 @@ export class FileTextEditor extends BaseComponent {
     if (!this.downloadFile.state.data) {
       return html`
         <div class="d-flex justify-content-between align-items-center gap-3 flex-wrap py-2 border-bottom border-gray mb-3">
-          <h2 class="text-primary fs-4">File Name</h2>
+          <h2 class="text-primary fs-4"></h2>
 
           <div class="d-flex justify-content-between align-items-center gap-3">
             <x-link href="/file-list" class="hover-opacity">
@@ -45,7 +46,7 @@ export class FileTextEditor extends BaseComponent {
     if (this.downloadFile.state.data.ext !== 'trix') {
       return html`
         <div class="d-flex justify-content-between align-items-center gap-3 flex-wrap py-2 border-bottom border-gray mb-3">
-          <h2 class="text-primary fs-4">File Name</h2>
+          <h2 class="text-primary fs-4"></h2>
 
           <div class="d-flex justify-content-between align-items-center gap-3">
             <x-link href="/file-list" class="hover-opacity">
@@ -63,8 +64,9 @@ export class FileTextEditor extends BaseComponent {
     return html`
       <div class="d-flex flex-column flex-grow-1">
         <div class="d-flex justify-content-between align-items-center gap-3 flex-wrap py-2 border-bottom border-gray mb-3">
-          <h2 class="text-primary fs-4">File Name</h2>
+          <h2 class="text-primary fs-4">${this.downloadFile.state.data.fileName}</h2>
           <div class="d-flex justify-content-between align-items-center gap-3">
+            ${this.replaceFile.state.isFetching ? html`<p class="fs-7 text-gray translate-y-2">Saving...</p>` : null}
             <button
               class="hover-opacity"
               @click=${() => this.handleSave()}  
@@ -96,7 +98,7 @@ export class FileTextEditor extends BaseComponent {
   }
 
   handleDownload() {
-    const filename = this.downloadFile.state.data?.filename;
+    const filename = this.downloadFile.state.data?.fileName;
     if (!filename) {
       this.error.actions.setError('Invalid file name');
       return;
@@ -109,20 +111,32 @@ export class FileTextEditor extends BaseComponent {
   }
 
   async handleSave() {
-    const filename = this.downloadFile.state.data?.filename;
+    const filename = this.downloadFile.state.data?.fileName;
     if (!filename) {
       this.error.actions.setError('Invalid file name');
       return;
     }
 
     const trix = this.trixRef.element;
-    const file = new File([JSON.stringify(trix.editor)], filename, { type: 'text/plain' });
+    const trixJSON = JSON.stringify(trix.editor);
+    const file = new File([trixJSON], filename, { type: 'text/plain' });
     const formData = new FormData();
     formData.append('file', file);
+    formData.append('group_id', this.downloadFile.state.data.groupId);
 
-    await this.uploadFile.actions.mutate(formData);
+    // for some reason, the editor clears when the replace file mutation is called
+    // so we need to make sure that text stays in the editor when the promise is returned
+    // and when the promise resolves
+    const promise = this.replaceFile.actions.mutate(formData);
+    trix.editor.loadJSON(JSON.parse(trixJSON));
+    await promise;
+    trix.editor.loadJSON(JSON.parse(trixJSON));
 
-    if (this.uploadFile.state.status === 'error') {
+    if (this.replaceFile.state.status === 'success') {
+      const fileId = this.replaceFile.state.data.new_file_id;
+      history.push(`/file/${fileId}`);
+      window.location.reload(); // todo temporary band aid
+    } else if (this.replaceFile.state.status === 'error') {
       this.error.actions.setError('Could not save file, please try again later');
     }
   }

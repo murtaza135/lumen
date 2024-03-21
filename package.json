@@ -40,6 +40,7 @@
     "obscenity": "^0.2.0",
     "on-change": "^5.0.0",
     "pdfjs-dist": "^4.0.379",
+    "socket.io-client": "^4.7.5",
     "the-new-css-reset": "^1.11.2",
     "timeago.js": "^4.0.2",
     "trix": "^2.0.10",

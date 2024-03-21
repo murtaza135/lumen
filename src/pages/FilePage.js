@@ -21,7 +21,7 @@ export class FilePage extends BaseComponent {
 
         <div class="container h-100 mb-auto pb-3 flex-grow-1 d-flex flex-column">
           <div class="d-flex justify-content-between align-items-center gap-3 flex-wrap py-2 border-bottom border-gray mb-3">
-            <h2 class="text-primary fs-4">File Name</h2>
+            <h2 class="text-primary fs-4"></h2>
 
             <div class="d-flex justify-content-between align-items-center gap-3">
               <x-link href="/file-list" class="hover-opacity">
@@ -46,7 +46,7 @@ export class FilePage extends BaseComponent {
 
         <div class="container h-100 mb-auto pb-3 flex-grow-1 d-flex flex-column">
           <div class="d-flex justify-content-between align-items-center gap-3 flex-wrap py-2 border-bottom border-gray mb-3">
-            <h2 class="text-primary fs-4">File Name</h2>
+            <h2 class="text-primary fs-4"></h2>
 
             <div class="d-flex justify-content-between align-items-center gap-3">
               <x-link href="/file-list" class="hover-opacity">
@@ -74,5 +74,3 @@ export class FilePage extends BaseComponent {
     `;
   }
 }
-
-// ${showPdf ? html`<pdf-viewer />` : html`<file-text-editor />`}

@@ -366,6 +366,10 @@
   border-color: #c8c8c8 !important;
 }
 
+.text-gray {
+  color: #848484 !important;
+}
+
 .bg-primary-important {
   background-color: #117a88 !important;
 }

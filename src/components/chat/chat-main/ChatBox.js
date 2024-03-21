@@ -1,6 +1,10 @@
 /* eslint-disable prefer-destructuring */
 import { BaseComponent, html } from 'framework';
 import sendAltFilledImg from '@/assets/send-alt-filled.svg';
+import { messagesQuery } from '@/api/chat/messagesQuery';
+import { socket } from '@/ws/ws';
+import { getLoggedInUser, getToken } from '@/api/api.util';
+import { uploadFileMutation } from '@/api/files/uploadFileMutation';
 
 // TODO createObjectURL causes a memory leak
 
@@ -11,6 +15,11 @@ export class ChatBox extends BaseComponent {
     this.fileInputRef = this.ref('file');
     this.file = undefined;
     this.fileState = this.state(undefined);
+    this.chatSocket = socket('chat');
+    this.chatFriendsGroups = this.slice('chatFriendsGroups');
+    this.messages = this.query(messagesQuery(this.chatFriendsGroups.state.activeFriendOrGroup.id));
+    this.uploadFile = this.mutation(uploadFileMutation());
+    this.error = this.slice('error');
   }
 
   render() {
@@ -74,25 +83,66 @@ export class ChatBox extends BaseComponent {
     this.fileState.state = undefined;
   }
 
-  handleSubmit(event) {
+  async handleSubmit(event) {
     event.preventDefault();
 
+    // message and file data
     const message = this.messageInputRef.element.value;
     const file = this.file;
+
+    this.removeFile();
+    this.messageInputRef.element.value = '';
 
     if (!message && !file) {
       return;
     }
 
-    const formData = new FormData();
-    formData.append('file', file);
+    // compile all data
+    const user = getLoggedInUser();
 
-    // TODO handle mutations and websockets when backend is setup
+    const data = {
+      message,
+      file: file ? { name: file.name, src: URL.createObjectURL(file), type: file.type } : null,
+      date: new Date().toISOString(),
+      name: `${user.first_name} ${user.last_name}`,
+      userId: user.id,
+      token: getToken(),
+      channelID: null,
+      recipientID: null,
+      isDirectMessage: true,
+    };
 
-    console.log(message);
-    console.log(file);
+    // optimistic update
+    this.messages.state.data.push({
+      content: data.message,
+      date: data.date,
+      name: data.name,
+      userId: data.userId,
+      fileName: data.file?.name,
+      fileSrc: data.file?.src,
+      fileType: data.file?.type,
+    });
 
-    this.removeFile();
-    this.messageInputRef.element.value = '';
+    // // upload file
+    // const formData = new FormData();
+    // formData.append('file', file);
+    // await this.uploadFile.actions.mutate(formData);
+
+    // if (this.uploadFile.state.status === 'error') {
+    //   this.error.actions.setError('Could not send message');
+    //   return;
+    // }
+
+    // // send message
+    // this.socket.emit('new_message', {
+    //   token: data.token,
+    //   content: data.message,
+    //   channelID: data.channelID,
+    //   recipientID: data.recipientID,
+    //   isDirectMessage: data.isDirectMessage,
+    //   // get file data
+    // });
+
+    this.messages.actions.refetch();
   }
 }

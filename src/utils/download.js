@@ -9,3 +9,13 @@ export function download(file) {
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
 }
+
+export function downloadSrc(src, name) {
+  const a = document.createElement('a');
+  a.style.display = 'hidden';
+  a.href = src;
+  a.download = name;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}

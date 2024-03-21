@@ -8,8 +8,6 @@ import { download } from '@/utils/download';
 import { fileApi } from '@/api/api';
 import { downloadFileQuery } from '@/api/files/downloadFileQuery';
 
-// TODO filename replacement
-
 pdfjs.GlobalWorkerOptions.workerSrc = pdfWorker;
 const ROTATION_VALUES = [0, 90, 180, 270];
 
@@ -61,7 +59,7 @@ export class PDFViewer extends BaseComponent {
     if (this.pdfDoc.state === null) {
       return html`
         <div class="d-flex justify-content-between align-items-center gap-3 flex-wrap py-2 border-bottom border-gray mb-3">
-          <h2 class="text-primary fs-4">File Name</h2>
+          <h2 class="text-primary fs-4"></h2>
 
           <div class="d-flex justify-content-between align-items-center gap-3">
             <x-link href="/file-list" class="hover-opacity">
@@ -79,7 +77,7 @@ export class PDFViewer extends BaseComponent {
 
     return html`
       <div class="d-flex justify-content-between align-items-center gap-3 flex-wrap py-2 border-bottom border-gray mb-3">
-        <h2 class="text-primary fs-4">File Name</h2>
+        <h2 class="text-primary fs-4">${this.pdfValue.fileName}</h2>
 
         <div class="d-flex justify-content-between align-items-center gap-4">
           <div class="d-flex align-items-center gap-2">
@@ -221,7 +219,7 @@ export class PDFViewer extends BaseComponent {
 
   async handleDownload() {
     const doc = await fileApi.get(this.pdfValue.src).blob();
-    const file = new File([doc], this.pdfValue.filename);
+    const file = new File([doc], this.pdfValue.fileName);
     download(file);
   }
 }

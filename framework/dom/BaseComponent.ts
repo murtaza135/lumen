@@ -33,6 +33,8 @@ export class BaseComponent extends HTMLElement {
   private eventListenerUnsubscriberFunctions: Unsubscriber[];
   private stateUnsubscriberFunctions: Unsubscriber[];
   private effectCleanupFunction: (() => void) | null;
+  private effectOnceCleanupFunction: (() => void) | null;
+  private effectBeforeCleanupFunction: (() => void) | null;
 
   constructor() {
     super();
@@ -41,15 +43,22 @@ export class BaseComponent extends HTMLElement {
     this.eventListenerUnsubscriberFunctions = [];
     this.stateUnsubscriberFunctions = [];
     this.effectCleanupFunction = null;
+    this.effectOnceCleanupFunction = null;
+    this.effectBeforeCleanupFunction = null;
   }
 
   connectedCallback() {
     this.update();
+    this.effectOnceCleanupFunction = this.effectOnce() ?? null;
   }
 
   disconnectedCallback() {
+    if (typeof this.effectBeforeCleanupFunction === "function")
+      this.effectBeforeCleanupFunction?.();
     if (typeof this.effectCleanupFunction === "function")
       this.effectCleanupFunction?.();
+    if (typeof this.effectOnceCleanupFunction === "function")
+      this.effectOnceCleanupFunction?.();
     this.dehydrate();
     this.unsubscribe();
     this.cleanup();
@@ -60,9 +69,12 @@ export class BaseComponent extends HTMLElement {
   }
 
   private update() {
+    if (typeof this.effectBeforeCleanupFunction === "function")
+      this.effectBeforeCleanupFunction?.();
     if (typeof this.effectCleanupFunction === "function")
       this.effectCleanupFunction?.();
     this.dehydrate();
+    this.effectBeforeCleanupFunction = this.effectBefore() ?? null;
     render(this, this.render());
     this.attachRefs();
     this.hydrate();
@@ -90,7 +102,6 @@ export class BaseComponent extends HTMLElement {
    * Manually rerender and update the component
    */
   protected rerender() {
-    console.log("rerender");
     this.update();
   }
 
@@ -250,10 +261,27 @@ export class BaseComponent extends HTMLElement {
   }
 
   /**
-   * Additional logic that should be run after rendering.
+   * Additional logic that should be run BEFORE rendering.
+   * This can return an optional function for cleaning up the effect.
+   * Please note that since this runs before rendering, no access to the DOM will be available.
+   */
+  protected effectBefore(): (() => void) | void {
+    /* optional: can be implemented by subclasses */
+  }
+
+  /**
+   * Additional logic that should be run AFTER rendering.
    * This can return an optional function for cleaning up the effect.
    */
   protected effect(): (() => void) | void {
+    /* optional: can be implemented by subclasses */
+  }
+
+  /**
+   * Additional logic that should be run AFTER rendering, ONCE.
+   * This can return an optional function for cleaning up the effect.
+   */
+  protected effectOnce(): (() => void) | void {
     /* optional: can be implemented by subclasses */
   }
 

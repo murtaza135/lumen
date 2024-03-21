@@ -3,7 +3,6 @@ import { BaseComponent, html } from 'framework';
 export class ChatMain extends BaseComponent {
   constructor() {
     super();
-    this.chatSideNav = this.slice('chatSideNav');
   }
 
   render() {

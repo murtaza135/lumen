@@ -1,24 +1,44 @@
 import { BaseComponent, html } from 'framework';
+import { socket } from '@/ws/ws';
+import { messagesQuery } from '@/api/chat/messagesQuery';
 
 export class ChatMainContent extends BaseComponent {
   constructor() {
     super();
+    this.chatSocket = socket('chat');
+    this.chatFriendsGroups = this.slice('chatFriendsGroups');
+    this.messages = this.query(messagesQuery(this.chatFriendsGroups.state.activeFriendOrGroup.id));
   }
 
   render() {
     this.rootCSSClasses('w-100 flex-grow-1 d-flex flex-column');
 
+    if (this.messages.state.status === 'loading') {
+      return html`
+        <x-spinner class="center" />
+      `;
+    }
+
+    if (this.messages.state.status === 'error') {
+      return html`
+        <p class="text-danger text-center">Could not load chat</p>
+      `;
+    }
+
     return html`
       <div class="chat-main-content position-relative d-flex flex-column flex-grow-1 gap-4">
-        <div class="flex-grow-1 d-flex flex-column-reverse gap-4">
-          <chat-message name="John" timestamp="2023-06-30 09:20:00" message="Ut consequuntur rerum repellat sed ad sed." />
-          <chat-message name="Mary" timestamp="2023-07-30 09:20:00" message="Nobis aliquid asperiores aliquid necessitatibus explicabo." />
-          <chat-message name="John" timestamp="2023-08-30 09:20:00" message="Sint dolores beatae nisi voluptate autem distinctio enim voluptatem. Enim voluptate rerum et molestiae est quidem sunt ab dolorum. Eaque qui hic. Consectetur voluptates adipisci id. Neque iure praesentium. Praesentium omnis aut architecto sed ad aut ut." />
-          <chat-message name="Mary" timestamp="2023-09-30 09:20:00" message="Quibusdam qui est ut exercitationem. Soluta rerum itaque aperiam officiis commodi. Odio suscipit vel doloribus nulla." />
-          <chat-message name="John" timestamp="2023-10-30 09:20:00" message="minus debitis perspiciatis" />
-          <chat-message name="Mary" timestamp="2023-11-30 09:20:00" message="Quia libero voluptatum aspernatur perferendis id quas dolor cumque corporis. Ipsum velit rem id nihil est. Voluptatem voluptatem eum autem id eum eveniet quasi. Provident non magni est voluptatibus ad at. Odit officia id. Culpa illo maxime vel et." />
-          <chat-message name="John" timestamp="2023-12-30 09:20:00" message="Id magni rerum soluta enim incidunt velit qui." />
-          <chat-message name="Mary" timestamp="2024-01-30 09:20:00" message="Nam sint optio quae sapiente velit eum ad." />
+        <div class="flex-grow-1 d-flex flex-column justify-content-end gap-4">
+          ${this.messages.state.data.map((message) => html`
+            <chat-message
+              name=${message.name}
+              timestamp=${message.date}
+              message=${message.content}
+              fileName=${message.fileName}
+              fileType=${message.fileType}
+              fileSrc=${message.fileSrc}
+              fileId=${message.fileId}
+            />
+          `)}
         </div>
 
         <div class="position-sticky bottom-0 pb-3 flex-shrink-0 bg-white mt-auto">
@@ -26,5 +46,16 @@ export class ChatMainContent extends BaseComponent {
         </div>
       </div>
     `;
+  }
+
+  effect() {
+    this.chatSocket.on('receive_message', (data) => {
+      console.log(data);
+      this.messages.actions.refetch();
+    });
+
+    return () => {
+      this.chatSocket.off('receive_message');
+    };
   }
 }

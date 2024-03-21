@@ -1,6 +1,7 @@
 import { BaseComponent, html, history } from 'framework';
 import chatDotsFillImg from '@/assets/chat-dots-fill-primary.svg';
 import folderOpenImg from '@/assets/folder-open.svg';
+import { capitaliseWords } from '@/utils/capitalise';
 
 export class ChatMainTopBar extends BaseComponent {
   constructor() {
@@ -17,7 +18,7 @@ export class ChatMainTopBar extends BaseComponent {
         <div class="d-flex align-items-center">
           <chat-side-nav-toggle-button class="show-small-block" />
           <h2 class="title-heading text-primary fw-semibold -translate-y-2">
-            ${this.chatFriendsGroups.state.activeFriendOrGroup}
+            ${capitaliseWords(this.chatFriendsGroups.state.activeFriendOrGroup.name)}
           </h2>
         </div>
         

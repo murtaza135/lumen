@@ -6,7 +6,7 @@ export class ChatSideNav extends BaseComponent {
     this.chatFriendsGroups = this.slice('chatFriendsGroups');
 
     // TODO should be set by query once we can get data from server
-    this.chatFriendsGroups.actions.setActiveFriendOrGroup('Lumen');
+    this.chatFriendsGroups.actions.setActiveFriendOrGroup({ id: 1, name: 'lumen' });
   }
 
   render() {

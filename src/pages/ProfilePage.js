@@ -2,6 +2,8 @@ import { BaseComponent, html, history } from 'framework';
 import { meQuery } from '@/api/auth/meQuery';
 import { changePasswordMutation } from '@/api/auth/changePasswordMutation';
 import { deleteAccountMutation } from '@/api/auth/deleteAccountMutation';
+import { uploadProfilePictureMutation } from '@/api/auth/uploadProfilePictureMutation';
+import { downloadProfilePictureQuery } from '@/api/auth/downloadProfilePictureQuery';
 
 export class ProfilePage extends BaseComponent {
   constructor() {
@@ -9,6 +11,9 @@ export class ProfilePage extends BaseComponent {
     this.userData = this.query(meQuery());
     this.changePassword = this.mutation(changePasswordMutation());
     this.deleteAccount = this.mutation(deleteAccountMutation());
+    this.uploadProfilePicture = this.mutation(uploadProfilePictureMutation());
+    this.profilePictureSrc = null; // Initialise state for profile picture URL
+    this.loadProfilePicture();
   }
 
   getInitials(firstName, lastName) {
@@ -45,6 +50,25 @@ export class ProfilePage extends BaseComponent {
     modal.style.display = 'none';
   }
 
+  openChangePFPModal() {
+    console.log("openChangePFPModal called"); // Diagnostic log
+    const modal = document.getElementById('changePFPModal');
+    if (modal) {
+      modal.style.display = 'block';
+    } else {
+      console.error('Change PFP Modal element not found.');
+    }
+}
+  
+  closeChangePFPModal() {
+    const modal = document.getElementById('changePFPModal');
+    if (modal) {
+      modal.style.display = 'none';
+    } else {
+      console.error('Change PFP Modal element not found.');
+    }
+  }
+
   changePasswordHandler(newPassword, confirmPassword) {
     if (newPassword !== confirmPassword) {
       console.error('Passwords do not match.');
@@ -58,6 +82,41 @@ export class ProfilePage extends BaseComponent {
       .catch((error) => {
         console.error('Error changing password:', error);
       });
+  }
+
+  submitProfilePicture = () => {
+    const fileInput = document.getElementById('profilePictureInput');
+    const file = fileInput.files[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append('profile_picture', file);
+    
+      // Use the mutation function provided by the mutation object
+      this.uploadProfilePicture.actions.mutate(formData)
+        .then(response => {
+          console.log('Profile picture updated successfully:', response);
+          this.closeChangePFPModal();
+          // Update the profile picture in the UI or refetch the user's data here
+        })
+        .catch(error => {
+          console.error('Error updating profile picture:', error);
+          // Handle error in UI, such as showing an error message
+        });
+    } else {
+      console.error('No file selected.');
+      // Optionally handle the case where no file was selected
+    }
+  
+    // Clear the input value regardless of whether the upload was successful or not
+    fileInput.value = '';
+  };
+
+  async loadProfilePicture() {
+    const profilePictureData = await this.query(downloadProfilePictureQuery());
+    if (profilePictureData && profilePictureData.src) {
+      this.profilePictureSrc = profilePictureData.src;
+      this.update(); // Assuming `update` is a method to trigger re-render. Adjust as needed.
+    }
   }
 
   deleteUserHandler = () => {
@@ -78,8 +137,6 @@ export class ProfilePage extends BaseComponent {
     }
 
     if (this.userData.state.status === 'error') {
-      // return html`<p>Error: ${this.userData.state.error}</p>`;
-      // if the user does not exist, then he must login
       return history.push('/login');
     }
 
@@ -91,6 +148,12 @@ export class ProfilePage extends BaseComponent {
         <text x="50" y="50" font-family="Arial, sans-serif" font-size="50" fill="#ffffff" text-anchor="middle" dy=".3em">${initials}</text>
       </svg>
     `)}`;
+
+    // Conditional rendering based on the profile picture URL
+    const profilePictureDisplay = this.profilePictureSrc
+      ? html`<img src="${this.profilePictureSrc}" alt="Profile Picture" style="width: 250px; height: 250px; border-radius: 50%;" />`
+      : html`<img src="${initialsSVG}" alt="Profile Initials" style="width: 250px; height: 250px; border-radius: 50%;" />`;
+
 
     return html`
       <auth-guard />
@@ -105,7 +168,7 @@ export class ProfilePage extends BaseComponent {
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
           padding: 20px; /* Increased padding */
           max-width: 1920px; /* Increased max-width */
-          margin: 40px auto; /* Increased margin to add space around the container */
+          margin: 40px; /* Increased margin to add space around the container */
           align-items: flex-start; /* Align items to the start */
         }
 
@@ -281,8 +344,8 @@ export class ProfilePage extends BaseComponent {
         <div class="profile-container">
           <!-- Profile Section -->
           <div class="profile-section">
-            <img src="${initialsSVG}" alt="Profile Initials" style="width: 250px; height: 250px; border-radius: 50%;" />
-            <button style="background-color: #00aaff; color: white; padding: 10px 20px; border: none; border-radius: 20px; cursor: pointer; margin-top: 10px;">Change PFP</button>
+             ${profilePictureDisplay}
+             <button @click=${this.openChangePFPModal} style="background-color: #00aaff; color: white; padding: 10px 20px; border: none; border-radius: 20px; cursor: pointer; margin-top: 10px;">Change PFP</button>
           </div>
           <!-- Data Fields Section -->
           <div class="data-fields-section">
@@ -315,12 +378,12 @@ export class ProfilePage extends BaseComponent {
               <input type="password" id="newPassword" placeholder="New Password" />
               <input type="password" id="confirmNewPassword" placeholder="Confirm New Password" />
               <button id="submitChange" @click=${() => {
-        const newPasswordInput = document.querySelector('#newPassword');
-        const confirmPasswordInput = document.querySelector('#confirmNewPassword');
-        const newPassword = newPasswordInput.value;
-        const confirmPassword = confirmPasswordInput.value;
-        this.changePasswordHandler(newPassword, confirmPassword);
-      }}>Submit</button>
+                const newPasswordInput = document.querySelector('#newPassword');
+                const confirmPasswordInput = document.querySelector('#confirmNewPassword');
+                const newPassword = newPasswordInput.value;
+                const confirmPassword = confirmPasswordInput.value;
+                this.changePasswordHandler(newPassword, confirmPassword);
+                }}>Submit</button>
             </div>
           </div>
           <!-- Delete User Modal -->
@@ -331,6 +394,15 @@ export class ProfilePage extends BaseComponent {
               <strong>Are you sure you want to delete your account?</strong>
               <button id="confirmDelete" @click=${this.deleteUserHandler}>Confirm</button>
               <button id="cancelDelete" @click=${this.closeDeleteUserModal}>Cancel</button>
+            </div>
+          </div>
+          <!-- Change Profile Picture Modal -->
+          <div id="changePFPModal" class="modal" style="display: none;">
+            <div class="modal-content">
+              <span class="close" @click=${this.closeChangePFPModal}>&times;</span>
+              <h2 style="color: white;">Change Profile Picture</h2>
+              <input type="file" id="profilePictureInput" accept="image/*" />
+              <button @click=${this.submitProfilePicture}>Submit</button>
             </div>
           </div>
         </div>

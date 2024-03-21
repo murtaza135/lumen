@@ -6,9 +6,12 @@ const config = {
   env: import.meta.env,
   urls: {
     api: setting({
-      prod: import.meta.env.VITE_API_URL || 'http://109.228.50.25:8080',
-      // dev: 'http://localhost:3004',
-      dev: 'http://109.228.50.25:8080',
+      prod: import.meta.env.VITE_API_URL || 'https://109.228.50.25:8080',
+      dev: 'https://109.228.50.25:8080',
+    }),
+    ws: setting({
+      prod: import.meta.env.VITE_API_URL || 'wss://109.228.50.25:8080',
+      dev: 'wss://109.228.50.25:8080',
     }),
     client: setting({
       prod: import.meta.env.VITE_CLIENT_URL || 'http://localhost:5173',
@@ -19,7 +22,7 @@ const config = {
     artificialDelay: setting({ prod: false, dev: false }),
   },
   auth: {
-    applyAuth: setting({ prod: true, dev: true }),
+    applyAuth: setting({ prod: true, dev: false }),
   },
 };
 
