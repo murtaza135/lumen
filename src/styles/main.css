@@ -283,6 +283,16 @@ input::placeholder {
   }
 }
 
+.group-details-header {
+  text-align: center;
+}
+
+@media (min-width: 576px) {
+  .group-details-header {
+    text-align: start;
+  }
+}
+
 .group-details-buttons {
   display: flex;
   align-items: center;

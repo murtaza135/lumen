@@ -16,6 +16,7 @@ export class FilePage extends BaseComponent {
     if (!this.downloadFile.state.data) {
       return html`
         <auth-guard />
+        <setup-sockets />
         <error-toast />
         <x-nav hasAdmin="true" hasDashboard="true" hasLogout="true" hasUserProfile="true" />
 

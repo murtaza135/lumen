@@ -124,9 +124,9 @@ export class FileTextEditor extends BaseComponent {
     formData.append('file', file);
     formData.append('group_id', this.downloadFile.state.data.groupId);
 
-    // for some reason, the editor clears when the replace file mutation is called
-    // so we need to make sure that text stays in the editor when the promise is returned
-    // and when the promise resolves
+    // trix editor resets to initial file contents when the component rerenders
+    // therefore as a temporary band aid, reload the new data back into the trix editor
+    // before and after the promise resolves
     const promise = this.replaceFile.actions.mutate(formData);
     trix.editor.loadJSON(JSON.parse(trixJSON));
     await promise;
@@ -135,7 +135,7 @@ export class FileTextEditor extends BaseComponent {
     if (this.replaceFile.state.status === 'success') {
       const fileId = this.replaceFile.state.data.new_file_id;
       history.push(`/file/${fileId}`);
-      window.location.reload(); // todo temporary band aid
+      window.location.reload(); // temporary band aid
     } else if (this.replaceFile.state.status === 'error') {
       this.error.actions.setError('Could not save file, please try again later');
     }

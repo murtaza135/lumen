@@ -7,6 +7,7 @@ import { rejectFriendRequestMutation } from '@/api/friend-requests/rejectFriendR
 import { timeago } from '@/utils/timeago';
 import { capitaliseWords } from '@/utils/capitalise';
 import chatDotsFillImg from '@/assets/chat-dots-fill-primary.svg';
+import { navigateChat } from '@/utils/navigate';
 
 // TODO <td>Last online ${timeago(friend.timeLastSeen)}</td>
 
@@ -41,7 +42,7 @@ export class FriendsTable extends BaseComponent {
     });
 
     const friendRequests = this.friendRequests.state.data.filter((friend) => {
-      const friendName = `${friend.first_name.toLowerCase()} ${friend.last_name.toLowerCase()}`;
+      const friendName = `${friend.senderFirstName.toLowerCase()} ${friend.senderLastName.toLowerCase()}`;
       const searchText = this.searchDashboard.state.text.toLowerCase();
       return friendName.includes(searchText);
     });
@@ -55,14 +56,14 @@ export class FriendsTable extends BaseComponent {
         : friendRequests.map((friend) => html`
             <tr class="py-4">
               <th scope="row"><i class="fa-solid fa-user"></i></th>
-              <td>${capitaliseWords(friend.first_name)} ${capitaliseWords(friend.last_name)}</td>
+              <td>${capitaliseWords(`${friend.senderFirstName} ${friend.senderLastName}`)}</td>
               <td>
                 <div class="d-flex align-items-center justify-content-end gap-3">
                   <i
-                    @click=${() => this.handleAcceptFriendRequest(friend.user_id)}
+                    @click=${() => this.handleRejectFriendRequest(friend.senderID)}
                     class="fa-solid fa-xmark fa-xl translate-y-3 text-danger cursor-pointer hover-opacity"></i>
                   <i
-                    @click=${() => this.handleRejectFriendRequest(friend.user_id)}
+                    @click=${() => this.handleAcceptFriendRequest(friend.senderID)}
                     class="fa-solid fa-check fs-5 translate-y-2 text-primary cursor-pointer hover-opacity"></i>
                 </div>
               </td>
@@ -75,20 +76,20 @@ export class FriendsTable extends BaseComponent {
       <table class="table mt-1">
         <tbody>
           ${friends.length === 0
-        ? html`You have no friends. ¯\\_(ツ)_/¯`
+        ? html`You have no friends.`
         : friends.map((friend) => html`
             <tr class="py-4">
               <th scope="row"><i class="fa-solid fa-user"></i></th>
-              <td>${capitaliseWords(friend.first_name)} ${capitaliseWords(friend.last_name)}</td>
+              <td>${capitaliseWords(`${friend.first_name} ${friend.last_name}`)}</td>
               <td>
                 <div class="d-flex align-items-center justify-content-end gap-3">
                   <i 
                     @click=${() => this.handleDeleteFriend(friend.user_id)}
                     class="fa-solid fa-xmark fa-xl translate-y-3 text-danger cursor-pointer hover-opacity"
                   />
-                  <x-link href="/chat" class="w-6 h-6">
+                  <button @click=${() => navigateChat({ id: friend.user_id, name: capitaliseWords(`${friend.first_name} ${friend.last_name}`), type: 'friend' }, '/chat')} class="w-6 h-6">
                     <img src=${chatDotsFillImg} alt="Chat" width="24" />
-                  </x-link>
+                  </button>
                 </div>
               </td>
             </tr>
@@ -98,24 +99,24 @@ export class FriendsTable extends BaseComponent {
     `;
   }
 
-  async handleDeleteFriend(event, id) {
+  async handleDeleteFriend(id) {
     await this.deleteFriend.actions.mutate(id);
     if (this.deleteFriend.state.status === 'error') {
       this.error.actions.setError('Could not delete friend');
     }
   }
 
-  async handleAcceptFriendRequest(event, id) {
+  async handleAcceptFriendRequest(id) {
     await this.acceptFriendRequest.actions.mutate(id);
     if (this.acceptFriendRequest.state.status === 'error') {
-      this.error.actions.setError('Could not delete friend');
+      this.error.actions.setError('Could not accept friend request');
     }
   }
 
-  async handleRejectFriendRequest(event, id) {
+  async handleRejectFriendRequest(id) {
     await this.rejectFriendRequest.actions.mutate(id);
     if (this.rejectFriendRequest.state.status === 'error') {
-      this.error.actions.setError('Could not delete friend');
+      this.error.actions.setError('Could not reject friend request');
     }
   }
 }

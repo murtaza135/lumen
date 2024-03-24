@@ -6,7 +6,7 @@ export class GroupContent extends BaseComponent {
     super();
     this.id = history.data.params.id;
     this.groupManagement = this.slice('groupManagement');
-    this.group = this.query(singleGroupQuery());
+    this.group = this.query(singleGroupQuery(this.id));
   }
 
   render() {
@@ -23,7 +23,9 @@ export class GroupContent extends BaseComponent {
     return html`
       <group-details />
       <group-top-bar />
-      ${this.groupManagement.state.activeTab === 'members' ? html`<group-members-table />` : html`<group-requests-table />`}
+      <group-members-table />
     `;
   }
 }
+
+// TEMP ${this.groupManagement.state.activeTab === 'members' ? html`<group-members-table />` : html`<group-requests-table />`}

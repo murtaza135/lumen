@@ -16,9 +16,6 @@ export class GroupTopBar extends BaseComponent {
           <li class=${`nav-item ${this.groupManagement.state.activeTab === 'members' && 'active'}`}>
               <button @click=${() => this.groupManagement.actions.activateMembersTab()} class="nav-link">Members</button>
           </li>
-          <li class=${`nav-item ${this.groupManagement.state.activeTab === 'requests' && 'active'}`}>
-              <button @click=${() => this.groupManagement.actions.activateRequestsTab()} class="nav-link">Requests</button>
-          </li>
         </ul>
         <ul class="nav nav-pills">
           <form @submit=${(event) => this.handleSearchSubmit(event)} class="dashboard-nav-search d-flex gap-2" role="search">
@@ -36,3 +33,9 @@ export class GroupTopBar extends BaseComponent {
     this.groupManagement.actions.setSearchText(text);
   }
 }
+
+/*
+<li class=${`nav-item ${this.groupManagement.state.activeTab === 'requests' && 'active'}`}>
+    <button @click=${() => this.groupManagement.actions.activateRequestsTab()} class="nav-link">Requests</button>
+</li>
+*/

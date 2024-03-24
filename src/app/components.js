@@ -16,8 +16,6 @@ import { RecentGrid } from '@/components/dashboard/RecentGrid';
 import { AddButton } from '@/components/dashboard/AddButton';
 import { ChatSideNav } from '@/components/chat/side-nav/ChatSideNav';
 import { ChatSideNavTopBar } from '@/components/chat/side-nav/ChatSideNavTopBar';
-import { ChatSideNavGroup } from '@/components/chat/side-nav/ChatSideNavGroup';
-import { ChatSideNavPerson } from '@/components/chat/side-nav/ChatSideNavPerson';
 import { ChatSideNavToggleButton } from '@/components/chat/side-nav/ChatSideNavToggleButton';
 import { ChatBackdrop } from '@/components/chat/ChatBackdrop';
 import { ChatMain } from '@/components/chat/chat-main/ChatMain';
@@ -47,6 +45,11 @@ import { FileTextEditor } from '@/components/file/FileTextEditor';
 import { PDFViewer } from '@/components/file/PDFViewer';
 import { AddFileModal } from '@/components/file-list/AddFileModal';
 import { GroupContent } from '@/components/groups/GroupContent';
+import { ZoomPanel } from '@/components/zoom/ZoomPanel';
+import { ZoomAvatar } from '@/components/zoom/ZoomAvatar';
+import { ZoomAcceptRejectPanel } from '@/components/zoom/ZoomAcceptRejectPanel';
+import { ChatLoader } from '@/components/chat/ChatLoader';
+import { SetupSockets } from '@/components/general/SetupSockets';
 import config from './config';
 
 createComponents({
@@ -67,8 +70,6 @@ createComponents({
   'add-button': AddButton,
   'chat-side-nav': ChatSideNav,
   'chat-side-nav-top-bar': ChatSideNavTopBar,
-  'chat-side-nav-group': ChatSideNavGroup,
-  'chat-side-nav-person': ChatSideNavPerson,
   'chat-side-nav-toggle-button': ChatSideNavToggleButton,
   'chat-backdrop': ChatBackdrop,
   'chat-main': ChatMain,
@@ -97,5 +98,10 @@ createComponents({
   'pdf-viewer': PDFViewer,
   'add-file-modal': AddFileModal,
   'group-content': GroupContent,
+  'zoom-panel': ZoomPanel,
+  'zoom-avatar': ZoomAvatar,
+  'zoom-accept-reject-panel': ZoomAcceptRejectPanel,
+  'chat-loader': ChatLoader,
+  'setup-sockets': SetupSockets,
   'counter-client': !config.env.PROD ? CounterClient : null,
 });

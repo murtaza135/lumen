@@ -1,7 +1,7 @@
 import { api } from '@/api/api';
 import { sleep } from '@/utils/sleep';
 
-// TODO server
+// TEMP clean up
 
 const data = {
   group_id: 1,
@@ -9,7 +9,7 @@ const data = {
 };
 
 export const singleGroupQuery = (groupId) => ({
-  queryFn: async () => { await sleep(1000); return data; },
-  // queryFn: (groupId) => api.get('api-route').json(),
+  // queryFn: async () => { await sleep(1000); return data; },
+  queryFn: () => api.get(`group_info/${groupId}`).json(),
   tag: `groups/${groupId}`,
 });

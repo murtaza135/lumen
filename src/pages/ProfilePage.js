@@ -157,6 +157,7 @@ export class ProfilePage extends BaseComponent {
 
     return html`
       <auth-guard />
+      <setup-sockets />
       <error-toast/>
 
       <style>

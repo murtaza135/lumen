@@ -2,6 +2,7 @@ import { BaseComponent, html } from 'framework';
 import { timeago } from '@/utils/timeago';
 import { capitaliseWords } from '@/utils/capitalise';
 import chatDotsFillImg from '@/assets/chat-dots-fill-primary.svg';
+import { navigateChat } from '@/utils/navigate';
 
 const data = {
   members: [
@@ -47,9 +48,9 @@ export class AdminMessagesTable extends BaseComponent {
                     @click=${() => this.finishConversation()}
                     class="fa-solid fa-check fs-5 translate-y-4 text-primary cursor-pointer hover-opacity"
                   />
-                  <x-link href="/chat" class="w-6 h-6">
+                  <button @click=${() => navigateChat({ id: friend.id, name: friend.name, type: 'friend' })} class="w-6 h-6">
                     <img src=${chatDotsFillImg} alt="Chat" width="24" />
-                  </x-link>
+                  </button>
                 </div>
               </td>
             </tr>

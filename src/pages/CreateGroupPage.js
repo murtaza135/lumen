@@ -10,6 +10,7 @@ export class CreateGroupPage extends BaseComponent {
 
     return html`
       <auth-guard />
+      <setup-sockets />
       <error-toast />
       <x-nav hasAdmin="true" hasDashboard="true" hasChat="true" hasLogout="true" hasUserProfile="true" />
 

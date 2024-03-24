@@ -1,7 +1,7 @@
 import { api } from '@/api/api';
 import { sleep } from '@/utils/sleep';
 
-// TODO server
+// TEMP cleanup
 
 const data = [
   {
@@ -24,8 +24,13 @@ const data = [
   },
 ];
 
-export const messagesQuery = (groupId) => ({
-  queryFn: async () => { await sleep(1000); return data; },
-  // queryFn: () => api.get('api-route').json(),
-  tag: `chat/${groupId}`,
+export const messagesQuery = (id, type) => ({
+  // queryFn: async () => { await sleep(1000); return data; },
+  queryFn: async () => {
+    if (type === 'friend') {
+      return api.post(`get_person_messages/${id}`, { json: { n: 100 } }).json();
+    }
+    return api.get('get_recent_messages', { searchParams: { group_id: id, n: 100 } }).json();
+  },
+  tag: `chat/${type}/${id}`,
 });

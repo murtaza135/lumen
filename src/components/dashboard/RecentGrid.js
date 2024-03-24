@@ -1,6 +1,8 @@
 import { BaseComponent, html } from 'framework';
 import { recentQuery } from '@/api/recent/recentQuery';
 import { capitalizeFirstLetter } from '@/utils/capitalise';
+import { navigateChat } from '@/utils/navigate';
+import { singleGroupQuery } from '@/api/groups/singleGroupQuery';
 
 export class RecentGrid extends BaseComponent {
   constructor() {
@@ -8,6 +10,7 @@ export class RecentGrid extends BaseComponent {
     this.recent = this.query(recentQuery());
     this.searchDashboard = this.slice('searchDashboard');
     this.searchDashboard.actions.resetText();
+    this.error = this.slice('error');
   }
 
   render() {
@@ -21,10 +24,15 @@ export class RecentGrid extends BaseComponent {
       return html`<error-text class="center mt-5">Could not retrieve recent information</error-text>`;
     }
 
+    if (this.recent.state.data.length === 0) {
+      return html`<p class="text-black fs-6 mt-3 ms-3">You have no recent messages.</p>`;
+    }
+
     const recent = this.recent.state.data.filter((recentItem) => {
-      const recentItemTitle = recentItem.title.toLowerCase();
+      const username = recentItem.userName.toLowerCase();
+      const content = recentItem.content.toLowerCase();
       const searchText = this.searchDashboard.state.text.toLowerCase();
-      return recentItemTitle.includes(searchText);
+      return username.includes(searchText) || content.includes(searchText);
     });
 
     return html`
@@ -33,10 +41,10 @@ export class RecentGrid extends BaseComponent {
           <div class="col-12 col-md-4 mb-3">
             <div class="card h-100">
                 <div class="card-body d-flex flex-column align-items-start">
-                  <h5 class="card-title">${capitalizeFirstLetter(recentItem.title)}</h5>
-                  <p class="card-text">${recentItem.subtitle}</p>
+                  <h5 class="card-title">${capitalizeFirstLetter(recentItem.userName)}</h5>
+                  <p class="card-text">${recentItem.content}</p>
                   <div class="mt-auto pt-2">
-                    <x-link href="/chat" class="btn btn-primary">Chat</x-link>
+                    <button @click=${() => this.navigateToRecentChat(recentItem)} class="btn btn-primary">Chat</button>
                   </div>
                 </div>
             </div>
@@ -44,5 +52,20 @@ export class RecentGrid extends BaseComponent {
         `)}
       </div>
     `;
+  }
+
+  async navigateToRecentChat({ isDirectMessage, userId, userName, groupId }) {
+    if (isDirectMessage && !!userId && !!userName) {
+      navigateChat({ id: userId, name: userName, type: 'person' }, '/chat');
+    } else if (!isDirectMessage && !!groupId) {
+      try {
+        const { name } = await singleGroupQuery(groupId).queryFn();
+        navigateChat({ id: groupId, name, type: 'group' }, '/chat');
+      } catch {
+        this.error.setError('Could not load chat');
+      }
+    } else {
+      this.error.setError('Could not load chat');
+    }
   }
 }

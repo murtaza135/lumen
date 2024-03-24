@@ -15,7 +15,7 @@ export class ChatBox extends BaseComponent {
     this.fileInputRef = this.ref('file');
     this.file = undefined;
     this.fileState = this.state(undefined);
-    this.chatSocket = socket('chat');
+    // this.chatSocket = socket('global');
     this.chatFriendsGroups = this.slice('chatFriendsGroups');
     this.messages = this.query(messagesQuery(this.chatFriendsGroups.state.activeFriendOrGroup.id));
     this.uploadFile = this.mutation(uploadFileMutation());
@@ -134,7 +134,7 @@ export class ChatBox extends BaseComponent {
     // }
 
     // // send message
-    // this.socket.emit('new_message', {
+    // socket('global').emit('new_message', {
     //   token: data.token,
     //   content: data.message,
     //   channelID: data.channelID,

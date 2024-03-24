@@ -11,6 +11,7 @@ export class DashboardRecentPage extends BaseComponent {
 
     return html`
       <auth-guard />
+      <setup-sockets />
       <error-toast />
 
       <x-backdrop stateSlice="addModal" />

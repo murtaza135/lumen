@@ -1,7 +1,7 @@
 import { api } from '@/api/api';
 import { sleep } from '@/utils/sleep';
 
-// TODO server
+// TEMP cleanup
 
 const data = [
   { group_name: 'Dogs', is_added: false, group_id: 1 },
@@ -10,7 +10,7 @@ const data = [
 ];
 
 export const searchGroupsMutation = () => ({
-  mutationFn: async () => { await sleep(1000); return data; },
-  // mutationFn: (query) => api.get('search_groups', { searchParams: { query } }).json(),
+  // mutationFn: async () => { await sleep(1000); return data; },
+  mutationFn: (query) => api.get('search_groups', { searchParams: { query } }).json(),
   invalidateTags: [''],
 });

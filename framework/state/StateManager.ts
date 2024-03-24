@@ -45,6 +45,13 @@ export class StateManager {
     return slice;
   }
 
+  public querySlice(tag: string) {
+    const query = this.querySlices[tag];
+    if (!query)
+      return null;
+    return query;
+  }
+
   public query({ queryFn, tag, subscriber, transformer }: QueryMethodArgs) {
     if (!this.querySlices[tag])
       this.querySlices[tag] = new QueryStateSlice({ queryFn, transformer });

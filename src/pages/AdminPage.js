@@ -13,6 +13,7 @@ export class AdminPage extends BaseComponent {
 
     return html`
       <auth-guard />
+      <setup-sockets />
       <error-toast />
       
       <x-nav hasDashboard="true" hasChat="true" hasLogout="true" hasUserProfile="true" />

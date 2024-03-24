@@ -1,6 +1,6 @@
 import { BaseComponent, html } from 'framework';
 import { meQuery } from '@/api/auth/meQuery';
-import { getLoggedInUser, getUserId } from '@/api/api.util';
+import { getLoggedInUser, getToken, getUserId } from '@/api/api.util';
 
 export class MainPage extends BaseComponent {
   constructor() {
@@ -14,8 +14,11 @@ export class MainPage extends BaseComponent {
     return html`
       <error-toast />
 
-      ${getLoggedInUser() && getUserId()
-        ? html`<x-nav hasAdmin="true" hasDashboard="true" hasChat="true" hasLogout="true" hasUserProfile="true" />`
+      ${getLoggedInUser() && getUserId() && getToken()
+        ? html`
+          <setup-sockets />
+          <x-nav hasAdmin="true" hasDashboard="true" hasChat="true" hasLogout="true" hasUserProfile="true" />
+        `
         : html`<x-nav hasLogin="true" hasRegister="true" />`
       }
 

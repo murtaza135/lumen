@@ -3,6 +3,8 @@ import { singleGroupQuery } from '@/api/groups/singleGroupQuery';
 import { deleteGroupMutation } from '@/api/groups-created/deleteGroupMutation';
 import { extractInitials } from '@/utils/extractInitials';
 import { capitaliseWords } from '@/utils/capitalise';
+import { navigateChat } from '@/utils/navigate';
+import { getUserId, getLoggedInUser } from '@/api/api.util';
 
 export class GroupDetails extends BaseComponent {
   constructor() {
@@ -20,21 +22,25 @@ export class GroupDetails extends BaseComponent {
       return html``;
     }
 
+    const user = getLoggedInUser();
+    const isOwner = user.id === this.group.state.data.owner.user_id || user.user_role === 1;
+    const ownerName = capitaliseWords(`${this.group.state.data.owner.first_name} ${this.group.state.data.owner.last_name}`);
+
     return html`
       <div class="group-details rounded border border-primary px-4 py-3 mt-4">
-        <x-avatar size="xl" initials=${extractInitials(this.group.state.data.group_name)} />
-        <div>
-          <h2 class="fs-5 mb-0 text-primary">${capitaliseWords(this.group.state.data.group_name)}</h2>
-          <p class="text-dark opacity-75 fs-7">Group ID: ${this.id}</p>
+        <x-avatar size="xl" initials=${extractInitials(this.group.state.data.name)} />
+        <div class="group-details-header">
+          <h2 class="fs-5 mb-0 text-primary">${capitaliseWords(this.group.state.data.name)}</h2>
+          <p class="text-dark opacity-75 fs-7">Created by ${ownerName}</p>
         </div>
         <div class="group-details-buttons">
-          <i
-            @click=${() => this.handleDeleteGroup()}
-            class="fa-solid fa-xmark fs-3 text-danger cursor-pointer hover-opacity">
-          </i>
-          <x-link href="/chat" class="hover-opacity">
+          ${isOwner ? html`<i
+              @click=${() => this.handleDeleteGroup()}
+              class="fa-solid fa-xmark fs-3 text-danger cursor-pointer hover-opacity">
+            </i>` : null}
+          <button @click=${() => navigateChat({ id: this.id, name: this.group.state.data.name, type: 'group' }, '/chat')} class="hover-opacity">
             <i class="fa-regular fa-comment-dots fs-3 text-primary"></i>
-          </x-link>
+          </button>
         </div>
       </div>
     `;

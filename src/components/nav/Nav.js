@@ -9,8 +9,7 @@ import { getLoggedInUser } from '@/api/api.util';
 import lumenLogoImg from '@/assets/Lumen-logo-removebg.png';
 import listRichImg from '@/assets/list-rich.svg';
 import chatDotsFillImg from '@/assets/chat-dots-fill.svg';
-
-// TODO handle logic that only allows admins to enter this page, otherwise redirect to dashboard if authed and login page if not authed
+import { closeSocket } from '@/ws/ws';
 
 export class Nav extends BaseComponent {
   constructor() {
@@ -57,7 +56,7 @@ export class Nav extends BaseComponent {
           <div class="d-flex justify-content-between align-items-center gap-4">
             ${this.hasLogin ? html`<x-link href="/login" class=${`nav-link-item px-2 pb-1 text-white fs-5 ${this.path === '/login' && 'active'}`}>Login</x-link>` : ''}
             ${this.hasRegister ? html`<x-link href="/register" class=${`nav-link-item px-2 pb-1 text-white fs-5 ${this.path === '/register' && 'active'}`}>Register</x-link>` : ''}
-            ${this.hasAdmin ? html`<x-link href="/admin" class="nav-link-item translate-y-2" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Admin Panel"><i class="fa-solid fa-screwdriver-wrench text-white fs-5"></i></x-link>` : ''}
+            ${this.hasAdmin && loggedInUser?.user_role === 1 ? html`<x-link href="/admin" class="nav-link-item translate-y-2" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Admin Panel"><i class="fa-solid fa-screwdriver-wrench text-white fs-5"></i></x-link>` : ''}
             ${this.hasDashboard ? html`<x-link href="/dashboard/recent" class="nav-link-item" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Dashboard"><img src=${listRichImg} alt="Dashboard" width="20" /></x-link>` : ''}
             ${this.hasChat ? html`<x-link href="/chat" class="nav-link-item -translate-y-1"  data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Chat"><img src=${chatDotsFillImg} alt="Chat" width="24" /></x-link>` : ''}
             ${this.hasLogout ? html`<button @click=${() => this.handleLogout()} class="nav-link-item translate-y-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Logout"><i class="fa-solid fa-right-from-bracket text-white fs-5"></i></button>` : ''}
@@ -74,6 +73,7 @@ export class Nav extends BaseComponent {
 
   async handleLogout() {
     await this.logout.actions.mutate();
+    closeSocket('global');
     history.push('/login');
   }
 }
