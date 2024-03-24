@@ -3,7 +3,7 @@ import { StateSlice } from 'framework';
 export class AdminSlice extends StateSlice {
   constructor() {
     const state = {
-      activeTab: 'messages',
+      activeTab: 'users',
       searchText: '',
     };
 

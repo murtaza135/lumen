@@ -17,7 +17,10 @@ export class ChatBox extends BaseComponent {
     this.fileState = this.state(undefined);
     // this.chatSocket = socket('global');
     this.chatFriendsGroups = this.slice('chatFriendsGroups');
-    this.messages = this.query(messagesQuery(this.chatFriendsGroups.state.activeFriendOrGroup.id));
+    this.messages = this.query(messagesQuery(
+      this.chatFriendsGroups.state.activeFriendOrGroup.id,
+      this.chatFriendsGroups.state.activeFriendOrGroup.type,
+    ));
     this.uploadFile = this.mutation(uploadFileMutation());
     this.error = this.slice('error');
   }
@@ -107,20 +110,24 @@ export class ChatBox extends BaseComponent {
       name: `${user.first_name} ${user.last_name}`,
       userId: user.id,
       token: getToken(),
-      channelID: null,
-      recipientID: null,
-      isDirectMessage: true,
+      groupID: this.chatFriendsGroups.state.activeFriendOrGroup.type === 'group' ? this.chatFriendsGroups.state.activeFriendOrGroup.id : undefined,
+      recipientID: this.chatFriendsGroups.state.activeFriendOrGroup.type === 'friend' ? this.chatFriendsGroups.state.activeFriendOrGroup.id : undefined,
+      isDirectMessage: this.chatFriendsGroups.state.activeFriendOrGroup.type === 'friend',
     };
 
     // optimistic update
     this.messages.state.data.push({
       content: data.message,
-      date: data.date,
-      name: data.name,
+      timestamp: data.date,
+      userName: data.name,
       userId: data.userId,
-      fileName: data.file?.name,
-      fileSrc: data.file?.src,
-      fileType: data.file?.type,
+      files: [
+        {
+          fileName: data.file?.name,
+          fileSrc: data.file?.src,
+          mimeType: data.file?.type,
+        },
+      ],
     });
 
     // // upload file
@@ -133,16 +140,19 @@ export class ChatBox extends BaseComponent {
     //   return;
     // }
 
-    // // send message
-    // socket('global').emit('new_message', {
-    //   token: data.token,
-    //   content: data.message,
-    //   channelID: data.channelID,
-    //   recipientID: data.recipientID,
-    //   isDirectMessage: data.isDirectMessage,
-    //   // get file data
-    // });
+    console.log(data);
+    console.log('emitting');
 
-    this.messages.actions.refetch();
+    // // send message
+    socket('global').emit('new_message', {
+      token: data.token,
+      content: data.message,
+      groupID: !data.isDirectMessage ? data.groupID : null,
+      recipientID: data.isDirectMessage ? data.recipientID : null,
+      isDirectMessage: data.isDirectMessage,
+      fileIds: [],
+    });
+
+    // this.messages.actions.refetch();
   }
 }

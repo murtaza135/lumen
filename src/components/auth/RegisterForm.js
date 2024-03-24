@@ -29,8 +29,8 @@ export class RegisterForm extends BaseComponent {
       <x-form @submit=${() => this.handleSubmit()} class="register-form">
         <h2>Register</h2>
         <x-input id=${this.emailInputRef.id} type="email" label="Email" placeholder="Enter your email" icon=${userSVG} />
-        <x-input id=${this.firstNameInputRef.id} type="text" label="First Name" placeholder="Enter your first name" />
-        <x-input id=${this.lastNameInputRef.id} type="text" label="Last Name" placeholder="Enter your last name" />
+        <x-input id=${this.firstNameInputRef.id} type="text" label="First Name" placeholder="Enter your first name" icon=${userSVG} />
+        <x-input id=${this.lastNameInputRef.id} type="text" label="Last Name" placeholder="Enter your last name" icon=${userSVG} />
         <x-input id=${this.passwordInputRef.id} type="password" label="Password" placeholder="Enter your password" icon=${lockClosedSVG} iconSize="18" />
         <x-input id=${this.confirmPasswordInputRef.id} type="password" label="Confirm Password" placeholder="Confirm your password" icon=${lockClosedSVG} iconSize="18" />
         <button type="submit" class="register-form-submit-button btn btn-light w-100 text-primary fw-bold">Register</button>

@@ -50,6 +50,8 @@ import { ZoomAvatar } from '@/components/zoom/ZoomAvatar';
 import { ZoomAcceptRejectPanel } from '@/components/zoom/ZoomAcceptRejectPanel';
 import { ChatLoader } from '@/components/chat/ChatLoader';
 import { SetupSockets } from '@/components/general/SetupSockets';
+import { ChatLoadingMain } from '@/components/chat/chat-loading/ChatLoadingMain';
+import { ChatMembersMain } from '@/components/chat/chat-members/ChatMembersMain';
 import config from './config';
 
 createComponents({
@@ -103,5 +105,7 @@ createComponents({
   'zoom-accept-reject-panel': ZoomAcceptRejectPanel,
   'chat-loader': ChatLoader,
   'setup-sockets': SetupSockets,
+  'chat-loading-main': ChatLoadingMain,
+  'chat-members-main': ChatMembersMain,
   'counter-client': !config.env.PROD ? CounterClient : null,
 });

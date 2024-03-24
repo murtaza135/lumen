@@ -1,5 +1,5 @@
 /* eslint-disable class-methods-use-this */
-import { BaseComponent, html } from 'framework';
+import { BaseComponent, html, stateManager } from 'framework';
 import { getLoggedInUser } from '@/api/api.util';
 import { capitaliseWords } from '@/utils/capitalise';
 import { zoom } from '@/utils/zoom/Zoom';
@@ -8,6 +8,7 @@ import { socket } from '@/ws/ws';
 export class SetupSockets extends BaseComponent {
   constructor() {
     super();
+    this.chatFriendsGroups = this.slice('chatFriendsGroups');
   }
 
   render() {
@@ -21,7 +22,7 @@ export class SetupSockets extends BaseComponent {
 
     const receiveMessage = (data) => {
       console.log(data);
-      this.messages.actions.refetch();
+      // this.messages.actions.refetch();
     };
 
     const startCall = async ({ zoomToken, tpc }) => {

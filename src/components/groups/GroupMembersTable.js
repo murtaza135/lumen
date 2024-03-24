@@ -5,6 +5,7 @@ import chatDotsFillImg from '@/assets/chat-dots-fill-primary.svg';
 import { navigateChat } from '@/utils/navigate';
 import { singleGroupQuery } from '@/api/groups/singleGroupQuery';
 import { getLoggedInUser } from '@/api/api.util';
+import { sendFriendRequestMutation } from '@/api/friend-requests/sendFriendRequestMutation';
 
 export class GroupMembersTable extends BaseComponent {
   constructor() {
@@ -14,6 +15,7 @@ export class GroupMembersTable extends BaseComponent {
     this.error = this.slice('error');
     this.group = this.query(singleGroupQuery(this.id));
     this.removeMember = this.mutation(removeMemberFromGroupMutation(this.id));
+    this.sendFriendRequest = this.mutation(sendFriendRequestMutation());
   }
 
   render() {
@@ -45,12 +47,15 @@ export class GroupMembersTable extends BaseComponent {
               <td>${capitaliseWords(`${member.first_name} ${member.last_name}`)}</td>
               <td>
                 <div class="d-flex align-items-center justify-content-end gap-3">
+                  <button @click=${() => this.handleSendFriendRequest(member.user_id)} class="hover-opacity">
+                    <i class="fa-solid fa-plus text-primary fs-5 translate-y-5"></i>
+                  </button>
                   ${isOwner ? html`<i
                     @click=${() => this.handleDeleteMember(member.user_id)}
-                    class="fa-solid fa-xmark fa-xl translate-y-3 text-danger cursor-pointer hover-opacity">
+                    class="fa-solid fa-trash fs-5 translate-y-3 text-danger cursor-pointer hover-opacity">
                   </i>` : null}
-                  <button @click=${() => navigateChat({ id: member.user_id, name: capitaliseWords(`${member.first_name} ${member.last_name}`), type: 'friend' }, '/chat')} class="w-6 h-6">
-                    <img src=${chatDotsFillImg} alt="Chat" width="24" />
+                  <button @click=${() => navigateChat({ id: member.user_id, name: capitaliseWords(`${member.first_name} ${member.last_name}`), type: 'friend' }, '/chat')} class="w-6 h-6 hover-opacity">
+                    <img src=${chatDotsFillImg} alt="Chat" width="23" />
                   </button>
                 </div>
               </td>
@@ -69,6 +74,13 @@ export class GroupMembersTable extends BaseComponent {
     await this.removeMember.actions.mutate(id);
     if (this.removeMember.state.status === 'error') {
       this.error.actions.setError('Could not delete member');
+    }
+  }
+
+  async handleSendFriendRequest(id) {
+    await this.sendFriendRequest.actions.mutate(id);
+    if (this.sendFriendRequest.state.status === 'error') {
+      this.error.actions.setError('You have already sent a friend request');
     }
   }
 }

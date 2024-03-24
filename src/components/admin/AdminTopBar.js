@@ -13,12 +13,6 @@ export class AdminTopBar extends BaseComponent {
     return html`
       <nav class="dashboard-nav navbar pb-2 px-3 mt-3 border-bottom border-secondary">
         <ul class="nav-links nav nav-pills gap-3">
-          <li class=${`nav-item ${this.admin.state.activeTab === 'messages' && 'active'}`}>
-              <button @click=${() => this.admin.actions.activateMessagesTab()} class="nav-link">Messages</button>
-          </li>
-          <li class=${`nav-item ${this.admin.state.activeTab === 'profanity' && 'active'}`}>
-              <button @click=${() => this.admin.actions.activateProfanityTab()} class="nav-link">Profanity</button>
-          </li>
           <li class=${`nav-item ${this.admin.state.activeTab === 'users' && 'active'}`}>
               <button @click=${() => this.admin.actions.activateUsersTab()} class="nav-link">Users</button>
           </li>
@@ -46,3 +40,12 @@ export class AdminTopBar extends BaseComponent {
     this.admin.actions.setSearchText('');
   }
 }
+
+/*
+<li class=${`nav-item ${this.admin.state.activeTab === 'messages' && 'active'}`}>
+    <button @click=${() => this.admin.actions.activateMessagesTab()} class="nav-link">Messages</button>
+</li>
+<li class=${`nav-item ${this.admin.state.activeTab === 'profanity' && 'active'}`}>
+    <button @click=${() => this.admin.actions.activateProfanityTab()} class="nav-link">Profanity</button>
+</li>
+*/

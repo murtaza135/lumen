@@ -5,6 +5,8 @@ export function navigateChat({ id, name, type }, to) {
   if (query) query.refetch();
   const slice = stateManager.slice('chatFriendsGroups');
   slice.setActiveFriendOrGroup({ id, name, type });
-  console.log(slice.state);
-  if (to) history.push(to);
+  if (type === 'group') slice.activateGroups();
+  else if (type === 'friend') slice.activateFriends();
+  const toRedirect = to.replace(/^\/+/g, '');
+  if (toRedirect) history.push(`/chat-loading?redirect=${toRedirect}`);
 }

@@ -31,20 +31,21 @@ export class AdminGroupsTable extends BaseComponent {
         <tbody>
           ${groups.map((group) => html`
             <tr class="py-4">
-              <th scope="row"><i class="fa-solid fa-people-group"></i></th>
+              <th scope="row"><i class="fa-solid fa-user-group text-primary translate-y-3"></i></th>
               <td>${capitaliseWords(group.group_name)}</td>
               <td>
                 <div class="d-flex align-items-center justify-content-end gap-3">
-                  <x-link href=${`/manage-group/${group.group_id}`}>
+                  <x-link href=${`/manage-group/${group.group_id}`} class="translate-y-3">
                     <i class="fa-solid fa-gear fs-5 cursor-pointer hover-opacity text-primary"></i>
                   </x-link>
                 </div>
               </td>
             </tr>
-          `)}
+          `)
+      }
         </tbody>
-      </table>
-    `;
+      </table >
+  `;
   }
 
   cleanup() {

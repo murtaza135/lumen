@@ -4,11 +4,10 @@ import { download } from '@/utils/download';
 import { uploadFileMutation } from '@/api/files/uploadFileMutation';
 import { replaceFileMutation } from '@/api/files/replaceFileMutation';
 import { downloadFileQuery } from '@/api/files/downloadFileQuery';
+import { deleteFileMutation } from '@/api/files/deleteFileMutation';
 import 'trix';
 import 'trix/dist/trix.css';
 import '@/styles/trix.css';
-
-// TODO update/replace file
 
 export class FileTextEditor extends BaseComponent {
   constructor() {
@@ -19,6 +18,8 @@ export class FileTextEditor extends BaseComponent {
     this.replaceFile = this.mutation(replaceFileMutation(this.fileId));
     this.uploadFile = this.mutation(uploadFileMutation());
     this.error = this.slice('error');
+    this.chatFriendsGroups = this.slice('chatFriendsGroups');
+    this.deleteFile = this.mutation(deleteFileMutation());
   }
 
   render() {
@@ -79,6 +80,12 @@ export class FileTextEditor extends BaseComponent {
             >
               <i class="fa-solid fa-download fs-4 text-primary translate-y-1"></i>
             </button>
+            <button
+              class="hover-opacity"
+              @click=${() => this.handleDelete()}
+            >
+              <i class="fa-solid fa-trash fs-5 text-danger translate-y-2"></i>
+            </button>
             <x-link href="/file-list" class="hover-opacity">
               <i class="fa-solid fa-xmark fs-3 text-danger translate-y-3"></i>
             </x-link>
@@ -110,6 +117,16 @@ export class FileTextEditor extends BaseComponent {
     download(file);
   }
 
+  async handleDelete() {
+    await this.deleteFile.actions.mutate(this.fileId);
+
+    if (this.deleteFile.state.status === 'success') {
+      history.replace('/file-list');
+    } else if (this.deleteFile.state.status === 'error') {
+      this.error.actions.setError('Could not delete file');
+    }
+  }
+
   async handleSave() {
     const filename = this.downloadFile.state.data?.fileName;
     if (!filename) {
@@ -134,7 +151,9 @@ export class FileTextEditor extends BaseComponent {
 
     if (this.replaceFile.state.status === 'success') {
       const fileId = this.replaceFile.state.data.new_file_id;
-      history.push(`/file/${fileId}`);
+      const groupId = this.chatFriendsGroups.state?.activeFriendOrGroup?.type === 'group' ? this.chatFriendsGroups.state?.activeFriendOrGroup?.id : null;
+      const groupName = this.chatFriendsGroups.state?.activeFriendOrGroup?.type === 'group' ? this.chatFriendsGroups.state?.activeFriendOrGroup?.name : null;
+      history.push(`/file/${fileId}?gid=${groupId}&gname=${groupName}`);
       window.location.reload(); // temporary band aid
     } else if (this.replaceFile.state.status === 'error') {
       this.error.actions.setError('Could not save file, please try again later');

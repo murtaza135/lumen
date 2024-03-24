@@ -8,6 +8,12 @@ export class FilePage extends BaseComponent {
     super();
     this.fileId = history.data.params.id;
     this.downloadFile = this.query(downloadFileQuery(this.fileId, { type: 'text' }));
+    this.chatFriendsGroups = this.slice('chatFriendsGroups');
+
+    if (history.data.search.gid && history.data.search.gname) {
+      this.chatFriendsGroups.actions.setActiveFriendOrGroup({ id: Number(history.data.search.gid), name: history.data.search.gname, type: 'group' });
+      this.chatFriendsGroups.actions.activateGroups();
+    }
   }
 
   render() {

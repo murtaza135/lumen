@@ -304,3 +304,11 @@ input::placeholder {
     margin-left: auto;
   }
 }
+
+.chat-bubble-size {
+  font-size: 10rem;
+}
+
+.group-top-bar-for-chat {
+  margin-top: -0.5rem;
+}

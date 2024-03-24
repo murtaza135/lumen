@@ -19,24 +19,32 @@ export class MainContent extends BaseComponent {
           <div class = "leftFlex">
             <h2 style="text-align: center; font-size: 32px; font-weight: bold;">Welcome to Lumen</h2>
               <br>
-            <p>
-              Lorem ipsum dolor sit amet. Rem fugit inventore sit exercitationem impedit eum voluptate molestiae et cupiditate deleniti ut voluptatibus
-              consequatur At itaque quos! Eum fuga consequatur sed impedit ducimus hic voluptatem soluta sit rerum error et consequatur quidem et voluptatem facilis.
-              Sed quos assumenda eum nulla maiores aut consequatur earum. Est soluta illo non rerum labore et aliquid nobis hic quia reprehenderit qui quia
-              eaque aut accusantium laudantium qui ipsa reprehenderit.
-            </p>
-              <br>
-            <p>
-              Lorem ipsum dolor sit amet. Rem fugit inventore sit exercitationem impedit eum voluptate molestiae et cupiditate deleniti ut voluptatibus
-              consequatur At itaque quos! Eum fuga consequatur sed impedit ducimus hic voluptatem soluta sit rerum error et consequatur quidem et voluptatem facilis.
-              Sed quos assumenda eum nulla maiores aut consequatur earum. Est soluta illo non rerum labore et aliquid nobis hic quia reprehenderit qui quia
-              eaque aut accusantium laudantium qui ipsa reprehenderit.
+              <p class="fw-medium">
+                It is time brighten the world one message at the time. We are thrilled to have you as a user to our first project! 
+                <br><br>
+                LUMEN is not just a chat application, it is a platform developed to brighten your day, fostering worthwhile conversations and helping you to connect. Whether you are here to chat with friends and families or collaborating with your organisation, LUMEN will suit your needs.   
+<br><br>
+                With LUMENS user-friendly design, we are dedicated to providing you with an explicit messenger application. LUMEN could be used to one-to-one conversations or group chats with, share and receive pictures, or collaborate with different files. LUMEN offers everything you would need, to stay up to date with other users.  
+<br><br>
+                However, LUMEN is not just a tool – it is a way to connect! Welcome to LUMEN – where every conversation brightens your day! 
+<br><br>
+                Best regards,  
+<br><br>
+                The team of LUMEN
             </p>
             <div class = "LogoFlex">
-              <img src= ${youtubeImg} alt="Youtube">
-              <img src= ${twitterImg} alt="Twitter">
-              <img src= ${facebookImg} alt="Facebook">
-              <img src= ${instagramImg} alt="Instagram">
+              <a href="https://www.youtube.com/channel/UC6mUV5VwBfFV5uij1z2hmGQ" target="_blank" class="text-primary hover-opacity">
+                <img src= ${youtubeImg} alt="Youtube">
+              </a>
+              <a href="https://twitter.com/?lang=en" target="_blank" class="text-primary hover-opacity">
+                <img src= ${twitterImg} alt="Twitter">
+              </a>
+              <a href="https://en-gb.facebook.com/" target="_blank" class="text-primary hover-opacity">
+                <img src= ${facebookImg} alt="Facebook">
+              </a>
+              <a href="https://www.instagram.com/lumen_hw" target="_blank" class="text-primary hover-opacity">
+                <img src= ${instagramImg} alt="Instagram">
+              </a>
             </div>
           </div>
 

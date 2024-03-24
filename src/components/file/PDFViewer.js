@@ -7,6 +7,7 @@ import * as pdfWorker from 'pdfjs-dist/build/pdf.worker.mjs';
 import { download } from '@/utils/download';
 import { fileApi } from '@/api/api';
 import { downloadFileQuery } from '@/api/files/downloadFileQuery';
+import { deleteFileMutation } from '@/api/files/deleteFileMutation';
 
 pdfjs.GlobalWorkerOptions.workerSrc = pdfWorker;
 const ROTATION_VALUES = [0, 90, 180, 270];
@@ -25,6 +26,8 @@ export class PDFViewer extends BaseComponent {
     this.pageNumIsPending = this.state(null);
     this.scale = this.state(1.5);
     this.rotationIndex = this.state(0);
+    this.deleteFile = this.mutation(deleteFileMutation());
+    this.error = this.slice('error');
 
     this.canvasRef = this.ref('canvas');
 
@@ -133,6 +136,12 @@ export class PDFViewer extends BaseComponent {
           >
             <i class="fa-solid fa-download fs-4 text-primary translate-y-1"></i>
           </button>
+          <button
+              class="hover-opacity"
+              @click=${() => this.handleDelete()}
+            >
+              <i class="fa-solid fa-trash fs-5 text-danger translate-y-2"></i>
+            </button>
           <x-link href="/file-list" class="hover-opacity">
             <i class="fa-solid fa-xmark fs-3 text-danger translate-y-3"></i>
           </x-link>
@@ -221,5 +230,15 @@ export class PDFViewer extends BaseComponent {
     const doc = await fileApi.get(this.pdfValue.src).blob();
     const file = new File([doc], this.pdfValue.fileName);
     download(file);
+  }
+
+  async handleDelete() {
+    await this.deleteFile.actions.mutate(this.fileId);
+
+    if (this.deleteFile.state.status === 'success') {
+      history.replace('/file-list');
+    } else if (this.deleteFile.state.status === 'error') {
+      this.error.actions.setError('Could not delete file');
+    }
   }
 }

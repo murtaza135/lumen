@@ -6,14 +6,15 @@ import { textToTrix } from '@/utils/trix.util';
 export class FileListTopBar extends BaseComponent {
   constructor() {
     super();
+    this.chatFriendsGroups = this.slice('chatFriendsGroups');
+    this.id = this.chatFriendsGroups.state.activeFriendOrGroup.id;
     this.searchInputRef = this.ref('searchInput');
     this.fileInputRef = this.ref('file');
     this.addFileModal = this.slice('addFileModal');
     this.fileList = this.slice('fileList');
     this.uploadFile = this.mutation(uploadFileMutation());
-    this.listFiles = this.query(groupFriendFilesQuery());
+    this.listFiles = this.query(groupFriendFilesQuery(this.id));
     this.error = this.slice('error');
-    this.chatFriendsGroups = this.slice('chatFriendsGroups');
   }
 
   render() {

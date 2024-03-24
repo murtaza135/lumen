@@ -29,7 +29,7 @@ export class ChatSideNav extends BaseComponent {
               <div class="chat-side-nav-group">
                 <button
                   class="group-name d-flex align-items-center gap-3 hover-opacity cursor-pointer"
-                  @click=${() => navigateChat({ id: group_id, name: group_name, type: 'group' })}
+                  @click=${() => navigateChat({ id: group_id, name: group_name, type: 'group' }, '/chat')}
                 >
                   <span class="border rounded-circle border-primary h-8 w-8 center">
                     <i class="fa-solid fa-user-group fs-7 text-primary"></i>
@@ -51,7 +51,7 @@ export class ChatSideNav extends BaseComponent {
           ${this.friends.state.data.map(({ user_id, first_name, last_name }) => html`
             <button
               class="chat-side-nav-person d-flex align-items-center gap-3 cursor-pointer hover-opacity"
-              @click=${() => navigateChat({ id: user_id, name: `${first_name} ${last_name}`, type: 'friend' })}
+              @click=${() => navigateChat({ id: user_id, name: `${first_name} ${last_name}`, type: 'friend' }, '/chat')}
             >
               <x-avatar size="sm" initials=${extractInitials(`${first_name} ${last_name}`)} />
               <p class=${`fs-5 text-primary ${this.chatFriendsGroups.state.activeFriendOrGroup?.name?.toLowerCase() === `${first_name} ${last_name}`.toLowerCase() ? 'fw-bold' : 'fw-medium'}`}>${capitaliseWords(`${first_name} ${last_name}`)}</p>

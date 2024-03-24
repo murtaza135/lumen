@@ -33,12 +33,12 @@ export class GroupDetails extends BaseComponent {
           <h2 class="fs-5 mb-0 text-primary">${capitaliseWords(this.group.state.data.name)}</h2>
           <p class="text-dark opacity-75 fs-7">Created by ${ownerName}</p>
         </div>
-        <div class="group-details-buttons">
+        <div class="group-details-buttons gap-4">
           ${isOwner ? html`<i
               @click=${() => this.handleDeleteGroup()}
-              class="fa-solid fa-xmark fs-3 text-danger cursor-pointer hover-opacity">
+              class="fa-solid fa-trash fs-5 text-danger cursor-pointer hover-opacity">
             </i>` : null}
-          <button @click=${() => navigateChat({ id: this.id, name: this.group.state.data.name, type: 'group' }, '/chat')} class="hover-opacity">
+          <button @click=${() => navigateChat({ id: this.id, name: this.group.state.data.name, type: 'group' }, '/chat')} class="hover-opacity translate-y-1">
             <i class="fa-regular fa-comment-dots fs-3 text-primary"></i>
           </button>
         </div>

@@ -55,7 +55,7 @@ export class FriendsTable extends BaseComponent {
         ? html`You have no friend requests.`
         : friendRequests.map((friend) => html`
             <tr class="py-4">
-              <th scope="row"><i class="fa-solid fa-user"></i></th>
+              <th scope="row"><i class="fa-solid fa-user text-primary translate-y-3"></i></th>
               <td>${capitaliseWords(`${friend.senderFirstName} ${friend.senderLastName}`)}</td>
               <td>
                 <div class="d-flex align-items-center justify-content-end gap-3">
@@ -79,16 +79,16 @@ export class FriendsTable extends BaseComponent {
         ? html`You have no friends.`
         : friends.map((friend) => html`
             <tr class="py-4">
-              <th scope="row"><i class="fa-solid fa-user"></i></th>
+              <th scope="row"><i class="fa-solid fa-user text-primary translate-y-3"></i></th>
               <td>${capitaliseWords(`${friend.first_name} ${friend.last_name}`)}</td>
               <td>
                 <div class="d-flex align-items-center justify-content-end gap-3">
                   <i 
                     @click=${() => this.handleDeleteFriend(friend.user_id)}
-                    class="fa-solid fa-xmark fa-xl translate-y-3 text-danger cursor-pointer hover-opacity"
+                    class="fa-solid fa-trash fs-5 translate-y-3 text-danger cursor-pointer hover-opacity"
                   />
                   <button @click=${() => navigateChat({ id: friend.user_id, name: capitaliseWords(`${friend.first_name} ${friend.last_name}`), type: 'friend' }, '/chat')} class="w-6 h-6">
-                    <img src=${chatDotsFillImg} alt="Chat" width="24" />
+                    <img src=${chatDotsFillImg} alt="Chat" width="23" />
                   </button>
                 </div>
               </td>

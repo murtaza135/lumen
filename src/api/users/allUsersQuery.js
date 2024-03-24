@@ -25,7 +25,7 @@ const data = [
 ];
 
 export const allUsersQuery = () => ({
-  queryFn: async () => { await sleep(1000); return data; },
-  // queryFn: () => api.get('api-route').json(),
+  // queryFn: async () => { await sleep(1000); return data; },
+  queryFn: () => api.get('get_all_users_info').json(),
   tag: 'users',
 });

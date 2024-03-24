@@ -37,15 +37,15 @@ export class GroupsTable extends BaseComponent {
         ? html`You have not joined or created any groups.`
         : groups.map((group) => html`
             <tr class="py-4">
-              <th scope="row"><i class="fa-solid fa-people-group"></i></th>
+              <th scope="row"><i class="fa-solid fa-user-group text-primary translate-y-3"></i></th>
               <td>${capitaliseWords(group.group_name)}</td>
               <td>
                 <div class="d-flex align-items-center justify-content-end gap-3">
                   <x-link href=${`/manage-group/${group.group_id}`} class="translate-y-3">
-                    <i class="fa-solid fa-arrow-up-right-from-square fs-6 cursor-pointer hover-opacity text-primary"></i>
+                    <i class="fa-solid fa-circle-info fs-4 cursor-pointer hover-opacity text-primary"></i>
                   </x-link>
-                  <button @click=${() => navigateChat({ id: group.group_id, name: group.group_name, type: 'group' }, '/chat')} class="w-6 h-6 hover-opacity">
-                    <img src=${chatDotsFillImg} alt="Chat" width="20" />
+                  <button @click=${() => navigateChat({ id: group.group_id, name: group.group_name, type: 'group' }, '/chat')} class="w-6 h-6 hover-opacity -translate-y-2">
+                    <img src=${chatDotsFillImg} alt="Chat" width="25" />
                   </button>
                 </div>
               </td>

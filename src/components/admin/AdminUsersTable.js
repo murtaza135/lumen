@@ -36,7 +36,7 @@ export class AdminUsersTable extends BaseComponent {
         <tbody>
           ${users.map((user) => html`
             <tr class="py-4">
-              <th scope="row"><i class="fa-solid fa-user"></i></th>
+              <th scope="row"><i class="fa-solid fa-user text-primary translate-y-3"></i></th>
               <td>${capitaliseWords(user.first_name)} ${capitalizeFirstLetter(user.last_name)}</td>
               <td>
                 <div class="d-flex align-items-center justify-content-end gap-3">

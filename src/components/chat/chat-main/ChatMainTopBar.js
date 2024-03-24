@@ -8,6 +8,7 @@ import { getToken } from '@/api/api.util';
 export class ChatMainTopBar extends BaseComponent {
   constructor() {
     super();
+    this.tab = this.attr('tab') ?? '';
     this.path = history.data.pathname;
     this.chatFriendsGroups = this.slice('chatFriendsGroups');
   }
@@ -25,12 +26,15 @@ export class ChatMainTopBar extends BaseComponent {
         </div>
         
         <div class="chat-main-top-bar-icons d-flex align-items-center h-100 flex-grow-1">
-          <x-link href="/chat" class=${`hover-opacity w-10 h-100 center px-1 pb-2 translate-y-2 ${this.path === '/chat' ? 'active' : ''}`}>
+          ${this.chatFriendsGroups.state.activeFriendOrGroup.id ? html`<x-link href="/chat" class=${`hover-opacity w-10 h-100 center px-1 pb-2 translate-y-2 ${this.path === '/chat' || this.tab === 'chat' ? 'active' : ''}`}>
             <img src=${chatDotsFillImg} alt="chat" class="w-6 h-6"  />
-          </x-link>
-          <x-link href="/file-list" class=${`hover-opacity w-9 h-100 center px-1 pb-2 translate-y-2 ${this.path === '/file-list' ? 'active' : ''}`}>
+          </x-link>` : null}
+          ${this.chatFriendsGroups.state.activeFriendOrGroup?.type === 'group' ? html`<x-link href="/file-list" class=${`hover-opacity w-9 h-100 center px-1 pb-2 translate-y-2 ${this.path === '/file-list' || this.tab === 'file-list' ? 'active' : ''}`}>
             <img src=${folderOpenImg} alt="files" class="w-6 h-6" />
-          </x-link>
+          </x-link>` : null}
+          ${this.chatFriendsGroups.state.activeFriendOrGroup?.type === 'group' ? html`<x-link href=${`/chat/members/${this.chatFriendsGroups.state.activeFriendOrGroup.id}`} class=${`hover-opacity w-9 h-100 center px-1 pb-2 translate-y-3 ${this.path?.includes('chat/members') || this.tab?.includes('chat/members') ? 'active' : ''}`}>
+            <i class="fa-solid fa-user-group text-primary fs-5 translate-y-1"></i>
+          </x-link>` : null}
           ${this.chatFriendsGroups.state.activeFriendOrGroup?.type === 'friend' ? html`<button @click=${() => this.startCall()} class="hover-opacity fs-5 text-primary -translate-y-3 ms-auto">
             <i class="fa-solid fa-phone"></i>
           </button>` : null}

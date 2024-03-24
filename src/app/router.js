@@ -12,6 +12,8 @@ export const router = createRouter({
     { path: '/dashboard/friends', html: html`<dashboard-friends-page />` },
     { path: '/dashboard/groups', html: html`<dashboard-groups-page />` },
     { path: '/chat', html: html`<chat-page />` },
+    { path: '/chat-loading', html: html`<chat-loading-page />` },
+    { path: '/chat/members/:id', html: html`<chat-group-members-page />` },
     { path: '/file-list', html: html`<file-list-page />` },
     { path: '/file/:id', html: html`<file-page />` },
     { path: '/create-group', html: html`<create-group-page />` },
