@@ -1,7 +1,6 @@
 import { BaseComponent, html } from 'framework';
 import { searchUsersMutation } from '@/api/users/searchUsersMutation';
 import { searchGroupsMutation } from '@/api/groups/searchGroupsMutation';
-// import { addFriendMutation } from '@/api/friends/addFriendMutation';
 import { sendFriendRequestMutation } from '@/api/friend-requests/sendFriendRequestMutation';
 import { deleteFriendMutation } from '@/api/friends/deleteFriendMutation';
 import { joinGroupMutation } from '@/api/groups/joinGroupMutation';
@@ -17,6 +16,7 @@ export class AddModal extends BaseComponent {
     this.friendsGroups = this.state('friends');
     this.addModal = this.slice('addModal');
     this.error = this.slice('error');
+    this.success = this.slice('success');
     this.searchUsers = this.mutation(searchUsersMutation());
     this.searchGroups = this.mutation(searchGroupsMutation());
     this.sendFriendRequest = this.mutation(sendFriendRequestMutation());
@@ -24,8 +24,8 @@ export class AddModal extends BaseComponent {
     this.joinGroup = this.mutation(joinGroupMutation());
     this.leaveGroup = this.mutation(leaveGroupMutation());
 
-    this.searchUsers.actions.mutate(' ');
-    this.searchGroups.actions.mutate(' ');
+    this.searchUsers.actions.mutate('');
+    this.searchGroups.actions.mutate('');
   }
 
   render() {
@@ -76,7 +76,7 @@ export class AddModal extends BaseComponent {
           <td class="bg-primary text-light">${capitaliseWords(group.group_name)}</td>
           <td class="bg-primary text-light">
             <div class="d-flex align-items-center justify-content-end gap-3 hover-opacity cursor-pointer">
-              <i class="fa-solid fa-plus" @click=${() => this.handleJoinGroup(group.group_id)}></i>
+              <i class="fa-solid fa-plus" @click=${() => this.handleJoinGroup(group.group_id, group.group_name)}></i>
             </div>
           </td>
         </tr>
@@ -145,7 +145,7 @@ export class AddModal extends BaseComponent {
 
   handleSearchSubmit(event) {
     event.preventDefault();
-    const query = this.searchInputRef.element.value || ' ';
+    const query = this.searchInputRef.element.value;
 
     if (this.friendsGroups.state === 'friends') {
       this.searchUsers.actions.mutate(query);
@@ -155,8 +155,8 @@ export class AddModal extends BaseComponent {
   }
 
   goToTab(tab) {
-    this.searchUsers.actions.mutate(' ');
-    this.searchGroups.actions.mutate(' ');
+    this.searchUsers.actions.mutate('');
+    this.searchGroups.actions.mutate('');
     this.searchInputRef.element.value = '';
     this.friendsGroups.state = tab;
   }
@@ -165,13 +165,17 @@ export class AddModal extends BaseComponent {
     await this.sendFriendRequest.actions.mutate(id);
     if (this.sendFriendRequest.state.status === 'error') {
       this.error.actions.setError('You have already send a friend request');
+    } else if (this.sendFriendRequest.state.status === 'success') {
+      this.success.actions.setSuccess('Friend request sent');
     }
   }
 
-  async handleJoinGroup(id) {
+  async handleJoinGroup(id, name) {
     await this.joinGroup.actions.mutate(id);
     if (this.joinGroup.state.status === 'error') {
       this.error.actions.setError('You have already joint this group');
+    } else if (this.joinGroup.state.status === 'success') {
+      this.success.actions.setSuccess(`You have joined ${capitaliseWords(name)}`);
     }
   }
 }

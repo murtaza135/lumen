@@ -6,5 +6,5 @@ export const leaveGroupMutation = () => ({
     const json = { group_id: groupId, user_ids: [getUserId()] };
     return api.post('remove_user_from_group', { json }).json();
   },
-  invalidateTags: ['groups/joined'],
+  invalidateTags: ['groups'],
 });

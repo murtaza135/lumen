@@ -13,6 +13,7 @@ export class MainPage extends BaseComponent {
 
     return html`
       <error-toast />
+      <success-toast />
 
       ${getLoggedInUser() && getUserId() && getToken()
         ? html`

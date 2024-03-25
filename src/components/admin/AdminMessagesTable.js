@@ -4,6 +4,8 @@ import { capitaliseWords } from '@/utils/capitalise';
 import chatDotsFillImg from '@/assets/chat-dots-fill-primary.svg';
 import { navigateChat } from '@/utils/navigate';
 
+// TODO server
+
 const data = {
   members: [
     {

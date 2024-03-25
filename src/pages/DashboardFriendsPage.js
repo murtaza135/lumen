@@ -12,6 +12,7 @@ export class DashboardFriendsPage extends BaseComponent {
       <auth-guard />
       <setup-sockets />
       <error-toast />
+      <success-toast />
       
       <x-backdrop stateSlice="addModal" />
       <add-modal />

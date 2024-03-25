@@ -133,7 +133,7 @@ export class ProfilePage extends BaseComponent {
 
   render() {
     if (this.userData.state.status === 'loading') {
-      return html`<p>Loading...</p>`;
+      return html`<x-spinner class="center pt-5" />`;
     }
 
     if (this.userData.state.status === 'error') {
@@ -159,6 +159,7 @@ export class ProfilePage extends BaseComponent {
       <auth-guard />
       <setup-sockets />
       <error-toast/>
+      <success-toast />
 
       <style>
 

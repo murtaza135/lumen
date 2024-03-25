@@ -1,7 +1,5 @@
 /* eslint-disable class-methods-use-this */
 import { BaseComponent, html, history } from 'framework';
-// import * as pdfjs from '@/lib/pdfjs/build/pdf.mjs';
-// import * as pdfWorker from '@/lib/pdfjs/build/pdf.worker.mjs';
 import * as pdfjs from 'pdfjs-dist';
 import * as pdfWorker from 'pdfjs-dist/build/pdf.worker.mjs';
 import { download } from '@/utils/download';

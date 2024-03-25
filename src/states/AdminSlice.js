@@ -10,6 +10,11 @@ export class AdminSlice extends StateSlice {
     super(state);
   }
 
+  reset() {
+    this.state.activeTab = 'users';
+    this.state.searchText = '';
+  }
+
   activateMessagesTab() {
     this.state.activeTab = 'messages';
   }

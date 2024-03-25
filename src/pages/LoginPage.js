@@ -10,6 +10,7 @@ export class LoginPage extends BaseComponent {
 
     return html`
       <error-toast />
+      <success-toast />
       <x-nav hasLogin="true" hasRegister="true" />
 
       <div class="container h-100 center my-auto">

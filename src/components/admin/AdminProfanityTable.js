@@ -1,6 +1,7 @@
 import { BaseComponent, html } from 'framework';
 import { allProfaneMessagesQuery } from '@/api/chat/allProfaneMessagesQuery';
 
+// TODO server
 // TODO accept and reject profane messages
 
 export class AdminProfanityTable extends BaseComponent {

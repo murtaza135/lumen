@@ -4,6 +4,7 @@ import folderOpenImg from '@/assets/folder-open.svg';
 import { capitaliseWords } from '@/utils/capitalise';
 import { socket } from '@/ws/ws';
 import { getToken } from '@/api/api.util';
+import { zoom } from '@/utils/zoom/Zoom';
 
 export class ChatMainTopBar extends BaseComponent {
   constructor() {
@@ -11,6 +12,7 @@ export class ChatMainTopBar extends BaseComponent {
     this.tab = this.attr('tab') ?? '';
     this.path = history.data.pathname;
     this.chatFriendsGroups = this.slice('chatFriendsGroups');
+    this.error = this.slice('error');
   }
 
   render() {
@@ -51,5 +53,11 @@ export class ChatMainTopBar extends BaseComponent {
         recipient: id,
       });
     }
+
+    setTimeout(() => {
+      if (!zoom.visible) {
+        this.error.actions.setError('Could not initiate call. Please try again later.');
+      }
+    }, 5000);
   }
 }

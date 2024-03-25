@@ -4,12 +4,9 @@ import { friendRequestsQuery } from '@/api/friend-requests/friendRequestsQuery';
 import { deleteFriendMutation } from '@/api/friends/deleteFriendMutation';
 import { acceptFriendRequestMutation } from '@/api/friend-requests/acceptFriendRequestMutation';
 import { rejectFriendRequestMutation } from '@/api/friend-requests/rejectFriendRequestMutation';
-import { timeago } from '@/utils/timeago';
 import { capitaliseWords } from '@/utils/capitalise';
 import chatDotsFillImg from '@/assets/chat-dots-fill-primary.svg';
 import { navigateChat } from '@/utils/navigate';
-
-// TODO <td>Last online ${timeago(friend.timeLastSeen)}</td>
 
 export class FriendsTable extends BaseComponent {
   constructor() {

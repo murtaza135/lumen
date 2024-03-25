@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 import { BaseComponent, html, history } from 'framework';
 import youtubeImg from '@/assets/youtube.svg';
 import twitterImg from '@/assets/x-twitter.svg';
@@ -23,13 +24,13 @@ export class MainContent extends BaseComponent {
                 It is time brighten the world one message at the time. We are thrilled to have you as a user to our first project! 
                 <br><br>
                 LUMEN is not just a chat application, it is a platform developed to brighten your day, fostering worthwhile conversations and helping you to connect. Whether you are here to chat with friends and families or collaborating with your organisation, LUMEN will suit your needs.   
-<br><br>
+                <br><br>
                 With LUMENS user-friendly design, we are dedicated to providing you with an explicit messenger application. LUMEN could be used to one-to-one conversations or group chats with, share and receive pictures, or collaborate with different files. LUMEN offers everything you would need, to stay up to date with other users.  
-<br><br>
+                <br><br>
                 However, LUMEN is not just a tool – it is a way to connect! Welcome to LUMEN – where every conversation brightens your day! 
-<br><br>
+                <br><br>
                 Best regards,  
-<br><br>
+                <br><br>
                 The team of LUMEN
             </p>
             <div class = "LogoFlex">

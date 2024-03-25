@@ -4,18 +4,20 @@ import { getToken } from '@/api/api.util';
 import { meQuery } from '@/api/auth/meQuery';
 import config from '@/app/config';
 import { closeSocket } from '@/ws/ws';
+import { logoutMutation } from '@/api/auth/logoutMutation';
 
 export class AuthGuard extends BaseComponent {
   constructor() {
     super();
     this.me = config.auth.applyAuth ? this.query(meQuery()) : null;
+    this.logout = this.mutation(logoutMutation());
   }
 
   render() {
     return html``;
   }
 
-  async effectBefore() {
+  effectBefore() {
     if (config.auth.applyAuth) {
       const isUserAccessTokenAvailable = !!getToken();
 
@@ -26,9 +28,11 @@ export class AuthGuard extends BaseComponent {
       );
 
       if (!isUserAccessTokenAvailable || isErrorGettingUserProfile) {
-        // TODO logout and remove local storage stuff
-        closeSocket('global');
-        history.replace('/login');
+        this.logout.actions.mutate().finally(() => {
+          closeSocket('global');
+          history.replace('/login');
+          window.location.reload();
+        });
       }
     }
   }

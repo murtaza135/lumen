@@ -5,6 +5,7 @@ import { Nav } from '@/components/nav/Nav';
 import { LoginForm } from '@/components/auth/LoginForm';
 import { RegisterForm } from '@/components/auth/RegisterForm';
 import { Spinner } from '@/components/general/Spinner';
+import { SuccessToast } from '@/components/error/SucessToast';
 import { ErrorToast } from '@/components/error/ErrorToast';
 import { ErrorText } from '@/components/error/ErrorText';
 import { MainContent } from '@/components/main/MainContent';
@@ -24,7 +25,6 @@ import { ChatMainContent } from '@/components/chat/chat-main/ChatMainContent';
 import { ChatBox } from '@/components/chat/chat-main/ChatBox';
 import { ChatMessage } from '@/components/chat/chat-main/ChatMessage';
 import { Avatar } from '@/components/general/Avatar';
-import { CounterClient } from '@/counter/CounterClient';
 import { FileListTopBar } from '@/components/file-list/FileListTopBar';
 import { FileList } from '@/components/file-list/FileList';
 import { FileListMain } from '@/components/file-list/FileListMain';
@@ -52,7 +52,6 @@ import { ChatLoader } from '@/components/chat/ChatLoader';
 import { SetupSockets } from '@/components/general/SetupSockets';
 import { ChatLoadingMain } from '@/components/chat/chat-loading/ChatLoadingMain';
 import { ChatMembersMain } from '@/components/chat/chat-members/ChatMembersMain';
-import config from './config';
 
 createComponents({
   'x-form': Form,
@@ -61,6 +60,7 @@ createComponents({
   'login-form': LoginForm,
   'register-form': RegisterForm,
   'x-spinner': Spinner,
+  'success-toast': SuccessToast,
   'error-toast': ErrorToast,
   'error-text': ErrorText,
   'main-content': MainContent,
@@ -107,5 +107,4 @@ createComponents({
   'setup-sockets': SetupSockets,
   'chat-loading-main': ChatLoadingMain,
   'chat-members-main': ChatMembersMain,
-  'counter-client': !config.env.PROD ? CounterClient : null,
 });

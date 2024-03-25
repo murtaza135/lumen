@@ -1,10 +1,7 @@
 import { BaseComponent, html } from 'framework';
 import { allUsersQuery } from '@/api/users/allUsersQuery';
 import { deleteUserMutation } from '@/api/users/deleteUserMutation';
-import { timeago } from '@/utils/timeago';
 import { capitaliseWords, capitalizeFirstLetter } from '@/utils/capitalise';
-
-// TODO <td>Last online ${timeago(user.timeLastSeen)}</td>
 
 export class AdminUsersTable extends BaseComponent {
   constructor() {

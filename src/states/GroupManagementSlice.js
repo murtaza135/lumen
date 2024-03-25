@@ -10,6 +10,11 @@ export class GroupManagementSlice extends StateSlice {
     super(state);
   }
 
+  reset() {
+    this.state.activeTab = 'members';
+    this.state.searchText = '';
+  }
+
   activateMembersTab() {
     this.state.activeTab = 'members';
   }

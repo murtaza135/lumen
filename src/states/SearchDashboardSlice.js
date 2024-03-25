@@ -9,6 +9,10 @@ export class SearchDashboardSlice extends StateSlice {
     super(state);
   }
 
+  reset() {
+    this.state.text = '';
+  }
+
   setText(text) {
     this.state.text = text;
   }

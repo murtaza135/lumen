@@ -12,11 +12,8 @@ import { FilePage } from '@/pages/FilePage';
 import { CreateGroupPage } from '@/pages/CreateGroupPage';
 import { ManageGroupPage } from '@/pages/ManageGroupPage';
 import { AdminPage } from '@/pages/AdminPage';
-import { CounterPageOne } from '@/counter/CounterPageOne';
-import { CounterPageTwo } from '@/counter/CounterPageTwo';
 import { ChatLoadingPage } from '@/pages/ChatLoadingPage';
 import { ChatGroupMembersPage } from '@/pages/ChatGroupMembersPage';
-import config from './config';
 
 createComponents({
   'main-page': MainPage,
@@ -34,6 +31,4 @@ createComponents({
   'admin-page': AdminPage,
   'chat-loading-page': ChatLoadingPage,
   'chat-group-members-page': ChatGroupMembersPage,
-  'counter-page-one': !config.env.PROD ? CounterPageOne : null,
-  'counter-page-two': !config.env.PROD ? CounterPageTwo : null,
 });

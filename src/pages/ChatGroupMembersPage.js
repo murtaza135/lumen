@@ -1,9 +1,5 @@
 /* eslint-disable class-methods-use-this */
 import { BaseComponent, html, history } from 'framework';
-import { socket } from '@/ws/ws';
-import { zoom } from '@/utils/zoom/Zoom';
-import { getLoggedInUser } from '@/api/api.util';
-import { capitaliseWords } from '@/utils/capitalise';
 
 export class ChatGroupMembersPage extends BaseComponent {
   constructor() {
@@ -23,6 +19,7 @@ export class ChatGroupMembersPage extends BaseComponent {
       <auth-guard />
       <setup-sockets />
       <error-toast />
+      <success-toast />
       <x-nav hasAdmin="true" hasDashboard="true" hasLogout="true" hasUserProfile="true" />
 
       <div class="container position-relative h-100 mb-auto pt-2 pb-4 d-flex flex-grow-1">

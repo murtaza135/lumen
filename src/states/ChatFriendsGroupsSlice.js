@@ -10,6 +10,11 @@ export class ChatFriendsGroupsSlice extends StateSlice {
     super(state);
   }
 
+  reset() {
+    this.state.activeTab = 'groups';
+    this.state.activeFriendOrGroup = { id: null, name: null, type: '' };
+  }
+
   activateGroups() {
     this.state.activeTab = 'groups';
   }

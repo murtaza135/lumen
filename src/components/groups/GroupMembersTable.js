@@ -1,5 +1,5 @@
 import { BaseComponent, html, history } from 'framework';
-import { removeMemberFromGroupMutation } from '@/api/group-members/removeMemberFromGroupMutation';
+import { removeMemberFromGroupMutation } from '@/api/groups/removeMemberFromGroupMutation';
 import { capitaliseWords } from '@/utils/capitalise';
 import chatDotsFillImg from '@/assets/chat-dots-fill-primary.svg';
 import { navigateChat } from '@/utils/navigate';
@@ -13,6 +13,7 @@ export class GroupMembersTable extends BaseComponent {
     this.id = history.data.params.id;
     this.groupManagement = this.slice('groupManagement');
     this.error = this.slice('error');
+    this.success = this.slice('success');
     this.group = this.query(singleGroupQuery(this.id));
     this.removeMember = this.mutation(removeMemberFromGroupMutation(this.id));
     this.sendFriendRequest = this.mutation(sendFriendRequestMutation());
@@ -81,6 +82,8 @@ export class GroupMembersTable extends BaseComponent {
     await this.sendFriendRequest.actions.mutate(id);
     if (this.sendFriendRequest.state.status === 'error') {
       this.error.actions.setError('You have already sent a friend request');
+    } else if (this.sendFriendRequest.state.status === 'success') {
+      this.success.actions.setSuccess('Friend request sent');
     }
   }
 }

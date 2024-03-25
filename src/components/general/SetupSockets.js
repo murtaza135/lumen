@@ -4,6 +4,7 @@ import { getLoggedInUser } from '@/api/api.util';
 import { capitaliseWords } from '@/utils/capitalise';
 import { zoom } from '@/utils/zoom/Zoom';
 import { socket } from '@/ws/ws';
+import { chatscroll } from '@/utils/events';
 
 export class SetupSockets extends BaseComponent {
   constructor() {
@@ -21,8 +22,17 @@ export class SetupSockets extends BaseComponent {
     const name = capitaliseWords(getLoggedInUser().first_name);
 
     const receiveMessage = (data) => {
-      console.log(data);
-      // this.messages.actions.refetch();
+      const chatFriendsGroups = stateManager.slice('chatFriendsGroups');
+      // I should be using data.userId/data.groupId and data.isDirectMessage, but leave it for now because im scared to try
+      const id = chatFriendsGroups.state?.activeFriendOrGroup?.id;
+      const type = chatFriendsGroups.state?.activeFriendOrGroup?.type;
+      if (id && type) {
+        const messagesQuery = stateManager.querySlice(`chat/${type}/${id}`);
+        messagesQuery.refetch();
+        if ((data.userId === id && type === 'friend') || (data.groupId === id && type === 'group')) {
+          document.querySelector('chat-main')?.dispatchEvent(chatscroll);
+        }
+      }
     };
 
     const startCall = async ({ zoomToken, tpc }) => {

@@ -15,6 +15,7 @@ export class AdminPage extends BaseComponent {
       <auth-guard />
       <setup-sockets />
       <error-toast />
+      <success-toast />
       
       <x-nav hasDashboard="true" hasChat="true" hasLogout="true" hasUserProfile="true" />
 

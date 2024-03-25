@@ -1,11 +1,9 @@
 import { BaseComponent, html } from 'framework';
-import { socket } from '@/ws/ws';
 import { messagesQuery } from '@/api/chat/messagesQuery';
 
 export class ChatMainContent extends BaseComponent {
   constructor() {
     super();
-    // this.chatSocket = socket('global');
     this.chatFriendsGroups = this.slice('chatFriendsGroups');
     this.messages = null;
 
@@ -89,18 +87,5 @@ export class ChatMainContent extends BaseComponent {
         </div>
       </div>
     `;
-  }
-
-  effect() {
-    // const listener = (data) => {
-    //   console.log(data);
-    //   this.messages.actions.refetch();
-    // };
-
-    // socket('global').on('receive_message', listener);
-
-    // return () => {
-    //   socket('global').off('receive_message', listener);
-    // };
   }
 }

@@ -13,6 +13,7 @@ export class DashboardRecentPage extends BaseComponent {
       <auth-guard />
       <setup-sockets />
       <error-toast />
+      <success-toast />
 
       <x-backdrop stateSlice="addModal" />
       ${this.addModal.state.isOpen ? html`<add-modal />` : null}

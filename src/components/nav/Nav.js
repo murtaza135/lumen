@@ -75,5 +75,6 @@ export class Nav extends BaseComponent {
     await this.logout.actions.mutate();
     closeSocket('global');
     history.push('/login');
+    window.location.reload();
   }
 }

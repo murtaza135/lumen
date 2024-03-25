@@ -28,4 +28,4 @@ export class GroupContent extends BaseComponent {
   }
 }
 
-// TEMP ${this.groupManagement.state.activeTab === 'members' ? html`<group-members-table />` : html`<group-requests-table />`}
+// ${this.groupManagement.state.activeTab === 'members' ? html`<group-members-table />` : html`<group-requests-table />`}

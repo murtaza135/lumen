@@ -4,7 +4,7 @@ import { acceptMemberRequestMutation } from '@/api/group-member-requests/acceptM
 import { rejectMemberRequestMutation } from '@/api/group-member-requests/rejectMemberRequestMutation';
 import { capitaliseWords } from '@/utils/capitalise';
 
-// TEMP not implemented by backend API
+// TODO server
 
 export class GroupRequestsTable extends BaseComponent {
   constructor() {

@@ -39,8 +39,6 @@ export class FileList extends BaseComponent {
       return html`<p class="text-primary fw-medium mt-3 center">This group has no files.</p>`;
     }
 
-    console.log(this.files.state.data);
-
     const files = this.files.state.data.filter((file) => {
       const fileName = file.fileName.toLowerCase();
       const searchText = this.fileList.state.text.toLowerCase();

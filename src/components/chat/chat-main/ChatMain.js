@@ -17,6 +17,18 @@ export class ChatMain extends BaseComponent {
   }
 
   effect() {
-    this.scrollTo({ behavior: 'instant', top: this.scrollHeight });
+    setTimeout(() => this.scrollTo({ behavior: 'smooth', top: this.scrollHeight + 100000 }), 800);
+    setTimeout(() => this.scrollTo({ behavior: 'smooth', top: this.scrollHeight + 100000 }), 1000);
+    setTimeout(() => this.scrollTo({ behavior: 'smooth', top: this.scrollHeight + 100000 }), 1250);
+
+    const chatscrollListener = () => {
+      this.scrollTo({ behavior: 'smooth', top: this.scrollHeight + 1000 });
+      setTimeout(() => this.scrollTo({ behavior: 'smooth', top: this.scrollHeight + 1000 }), 500);
+      setTimeout(() => this.scrollTo({ behavior: 'smooth', top: this.scrollHeight + 1000 }), 800);
+      setTimeout(() => this.scrollTo({ behavior: 'smooth', top: this.scrollHeight + 1000 }), 1200);
+    };
+
+    this.addEventListener('chatscroll', chatscrollListener);
+    return () => this.removeEventListener('chatscroll', chatscrollListener);
   }
 }

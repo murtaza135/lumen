@@ -12,6 +12,7 @@ export class ManageGroupPage extends BaseComponent {
       <auth-guard />
       <setup-sockets />
       <error-toast />
+      <success-toast />
       <x-backdrop stateSlice="addModal" />
       <add-modal />
       <x-nav hasAdmin="true" hasDashboard="true" hasChat="true" hasLogout="true" hasUserProfile="true" />

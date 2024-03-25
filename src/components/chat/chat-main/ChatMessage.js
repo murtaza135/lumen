@@ -32,7 +32,7 @@ export class ChatMessage extends BaseComponent {
     } else if (this.file?.state.status === 'success') {
       this.selectedFileSrc = this.file.state.data.src;
       this.selectedFileName = this.file.state.data.fileName;
-      this.this.selectedFileType = this.file.state.data.mimeType;
+      this.selectedFileType = this.file.state.data.mimeType;
     } else {
       this.selectedFileSrc = null;
       this.selectedFileName = null;

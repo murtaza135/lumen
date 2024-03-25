@@ -18,6 +18,7 @@ export class FileListPage extends BaseComponent {
       <auth-guard />
       <setup-sockets />
       <error-toast />
+      <success-toast />
 
       <x-backdrop stateSlice="addFileModal" />
       <add-file-modal />

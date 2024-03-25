@@ -1,6 +1,6 @@
 import { StateSlice } from 'framework';
 
-export class ErrorSlice extends StateSlice {
+export class SuccessSlice extends StateSlice {
   constructor() {
     const state = {
       text: null,
@@ -12,19 +12,19 @@ export class ErrorSlice extends StateSlice {
   }
 
   reset() {
-    this.clearError();
+    this.clearSuccess();
   }
 
-  setError(text) {
+  setSuccess(text) {
     this.state.text = text;
 
-    // automatically clear the error after 5 seconds
+    // automatically clear the success text after 5 seconds
     this.timeoutID = setTimeout(() => {
-      this.clearError();
+      this.clearSuccess();
     }, 5000);
   }
 
-  clearError() {
+  clearSuccess() {
     this.state.text = null;
     if (this.timeoutID) clearTimeout(this.timeoutID);
     this.timeoutID = null;

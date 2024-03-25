@@ -5,6 +5,7 @@ import { messagesQuery } from '@/api/chat/messagesQuery';
 import { socket } from '@/ws/ws';
 import { getLoggedInUser, getToken } from '@/api/api.util';
 import { uploadFileMutation } from '@/api/files/uploadFileMutation';
+import { chatscroll } from '@/utils/events';
 
 // TODO createObjectURL causes a memory leak
 
@@ -15,7 +16,6 @@ export class ChatBox extends BaseComponent {
     this.fileInputRef = this.ref('file');
     this.file = undefined;
     this.fileState = this.state(undefined);
-    // this.chatSocket = socket('global');
     this.chatFriendsGroups = this.slice('chatFriendsGroups');
     this.messages = this.query(messagesQuery(
       this.chatFriendsGroups.state.activeFriendOrGroup.id,
@@ -116,43 +116,46 @@ export class ChatBox extends BaseComponent {
     };
 
     // optimistic update
-    this.messages.state.data.push({
-      content: data.message,
-      timestamp: data.date,
-      userName: data.name,
-      userId: data.userId,
-      files: [
-        {
-          fileName: data.file?.name,
-          fileSrc: data.file?.src,
-          mimeType: data.file?.type,
-        },
-      ],
-    });
+    // this.messages.state.data.unshift({
+    //   content: data.message,
+    //   timestamp: data.date,
+    //   userName: data.name,
+    //   userId: data.userId,
+    //   files: [
+    //     {
+    //       fileName: data.file?.name,
+    //       fileSrc: data.file?.src,
+    //       mimeType: data.file?.type,
+    //     },
+    //   ],
+    // });
 
     // // upload file
-    // const formData = new FormData();
-    // formData.append('file', file);
-    // await this.uploadFile.actions.mutate(formData);
+    let fileId = null;
+    if (file) {
+      const formData = new FormData();
+      formData.append('file', file);
+      await this.uploadFile.actions.mutate(formData);
 
-    // if (this.uploadFile.state.status === 'error') {
-    //   this.error.actions.setError('Could not send message');
-    //   return;
-    // }
+      if (this.uploadFile.state.status === 'error') {
+        this.error.actions.setError('Could not send message');
+        return;
+      }
 
-    console.log(data);
-    console.log('emitting');
+      fileId = this.uploadFile.state.data.file_id;
+    }
 
-    // // send message
+    // send message
     socket('global').emit('new_message', {
       token: data.token,
       content: data.message,
-      groupID: !data.isDirectMessage ? data.groupID : null,
-      recipientID: data.isDirectMessage ? data.recipientID : null,
+      groupId: !data.isDirectMessage ? data.groupID : null,
+      recipientId: data.isDirectMessage ? data.recipientID : null,
       isDirectMessage: data.isDirectMessage,
-      fileIds: [],
+      fileIds: fileId ? [fileId] : [],
     });
 
-    // this.messages.actions.refetch();
+    this.messages.actions.refetch();
+    this.dispatchEvent(chatscroll);
   }
 }

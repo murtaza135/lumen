@@ -9,6 +9,10 @@ export class OpenCloseSlice extends StateSlice {
     super(state);
   }
 
+  reset() {
+    this.state.isOpen = false;
+  }
+
   open() {
     this.state.isOpen = true;
   }
