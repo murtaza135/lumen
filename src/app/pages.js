@@ -14,12 +14,14 @@ import { ManageGroupPage } from '@/pages/ManageGroupPage';
 import { AdminPage } from '@/pages/AdminPage';
 import { ChatLoadingPage } from '@/pages/ChatLoadingPage';
 import { ChatGroupMembersPage } from '@/pages/ChatGroupMembersPage';
+import { HelpdeskPage } from '@/pages/HelpDesk';
 
 createComponents({
   'main-page': MainPage,
   'login-page': LoginPage,
   'register-page': RegisterPage,
   'profile-page': ProfilePage,
+  'helpdesk-page': HelpdeskPage,
   'dashboard-recent-page': DashboardRecentPage,
   'dashboard-friends-page': DashboardFriendsPage,
   'dashboard-groups-page': DashboardGroupsPage,

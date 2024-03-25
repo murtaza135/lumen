@@ -21,6 +21,7 @@ export class Nav extends BaseComponent {
     this.hasChat = this.attr('hasChat', converter.boolean) ?? false;
     this.hasLogout = this.attr('hasLogout', converter.boolean) ?? false;
     this.hasUserProfile = this.attr('hasUserProfile', converter.boolean) ?? false;
+    this.hasHelpdesk = this.attr('hasHelpdesk', converter.boolean) ?? false;
     this.me = this.query(meQuery());
     this.profilePicture = this.query(downloadProfilePictureQuery());
     this.logout = this.mutation(logoutMutation());
@@ -43,6 +44,12 @@ export class Nav extends BaseComponent {
           <x-avatar initials=${extractInitials(`${loggedInUser.first_name} ${loggedInUser.last_name}`)} />
         </x-link>`;
 
+    const helpdeskLink = this.hasHelpdesk ? html`
+      <x-link href="/helpdesk" class="nav-link-item -translate-y-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Helpdesk">
+        <i style="padding-top: 8px" class="fa-solid fa-circle-info text-white fs-5"></i>
+      </x-link>
+    ` : '';
+
     return html`
       <nav class="container h-100 my-auto d-flex justify-content-between align-items-center">
           <!-- Logo -->
@@ -57,6 +64,7 @@ export class Nav extends BaseComponent {
             ${this.hasLogin ? html`<x-link href="/login" class=${`nav-link-item px-2 pb-1 text-white fs-5 ${this.path === '/login' && 'active'}`}>Login</x-link>` : ''}
             ${this.hasRegister ? html`<x-link href="/register" class=${`nav-link-item px-2 pb-1 text-white fs-5 ${this.path === '/register' && 'active'}`}>Register</x-link>` : ''}
             ${this.hasAdmin && loggedInUser?.user_role === 1 ? html`<x-link href="/admin" class="nav-link-item translate-y-2" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Admin Panel"><i class="fa-solid fa-screwdriver-wrench text-white fs-5"></i></x-link>` : ''}
+            ${this.hasHelpdesk ? html`${helpdeskLink}` : ''}
             ${this.hasDashboard ? html`<x-link href="/dashboard/recent" class="nav-link-item" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Dashboard"><img src=${listRichImg} alt="Dashboard" width="20" /></x-link>` : ''}
             ${this.hasChat ? html`<x-link href="/chat" class="nav-link-item -translate-y-1"  data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Chat"><img src=${chatDotsFillImg} alt="Chat" width="24" /></x-link>` : ''}
             ${this.hasLogout ? html`<button @click=${() => this.handleLogout()} class="nav-link-item translate-y-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Logout"><i class="fa-solid fa-right-from-bracket text-white fs-5"></i></button>` : ''}

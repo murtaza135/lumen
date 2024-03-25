@@ -24,6 +24,7 @@ export class AddModal extends BaseComponent {
     this.joinGroup = this.mutation(joinGroupMutation());
     this.leaveGroup = this.mutation(leaveGroupMutation());
 
+    // TODO move to effect
     this.searchUsers.actions.mutate('');
     this.searchGroups.actions.mutate('');
   }

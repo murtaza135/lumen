@@ -12,8 +12,7 @@ export class ProfilePage extends BaseComponent {
     this.changePassword = this.mutation(changePasswordMutation());
     this.deleteAccount = this.mutation(deleteAccountMutation());
     this.uploadProfilePicture = this.mutation(uploadProfilePictureMutation());
-    this.profilePictureSrc = null; // Initialise state for profile picture URL
-    this.loadProfilePicture();
+    this.profilePicture = this.query(downloadProfilePictureQuery());
   }
 
   getInitials(firstName, lastName) {
@@ -69,12 +68,12 @@ export class ProfilePage extends BaseComponent {
     }
   }
 
-  changePasswordHandler(newPassword, confirmPassword) {
-    if (newPassword !== confirmPassword) {
+  changePasswordHandler(new_password, confirmPassword) {
+    if (new_password !== confirmPassword) {
       console.error('Passwords do not match.');
       return;
     }
-    this.changePassword.actions.mutate({ newPassword })
+    this.changePassword.actions.mutate({ new_password })
       .then(() => {
         console.log('Password changed successfully.');
         this.closeChangePasswordModal();
@@ -84,30 +83,23 @@ export class ProfilePage extends BaseComponent {
       });
   }
 
+
   submitProfilePicture = () => {
     const fileInput = document.getElementById('profilePictureInput');
-    const file = fileInput.files[0];
-    if (file) {
+    if (fileInput.files.length > 0) {
       const formData = new FormData();
-      formData.append('profile_picture', file);
-    
-      // Use the mutation function provided by the mutation object
-      this.uploadProfilePicture.actions.mutate(formData)
-        .then(response => {
-          console.log('Profile picture updated successfully:', response);
-          this.closeChangePFPModal();
-          // Update the profile picture in the UI or refetch the user's data here
-        })
-        .catch(error => {
-          console.error('Error updating profile picture:', error);
-          // Handle error in UI, such as showing an error message
-        });
+      formData.append('profile_picture', fileInput.files[0]);
+      this.uploadProfilePicture.actions.mutate(formData).then(() => {
+        // Assuming the mutation returns the new profile picture URL
+        // Update the profile picture state
+        this.profilePicture.actions.refetch(); // Trigger re-fetching the profile picture
+        this.closeChangePFPModal();
+      }).catch(error => {
+        console.error('Error updating profile picture:', error);
+      });
     } else {
       console.error('No file selected.');
-      // Optionally handle the case where no file was selected
     }
-  
-    // Clear the input value regardless of whether the upload was successful or not
     fileInput.value = '';
   };
 
@@ -140,8 +132,10 @@ export class ProfilePage extends BaseComponent {
       return history.push('/login');
     }
 
+    const profilePictureUrl = this.profilePicture.state.data?.src; // fetched from the profile picture state
+
     const user = this.userData.state.data;
-    const initials = this.getInitials(user.first_name, user.last_name);
+    const initials = user ? this.getInitials(user.first_name, user.last_name) : 'XX';
     const initialsSVG = `data:image/svg+xml;base64,${btoa(`
       <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100">
         <rect width="100" height="100" fill="#00aaff"></rect>
@@ -149,10 +143,11 @@ export class ProfilePage extends BaseComponent {
       </svg>
     `)}`;
 
-    // Conditional rendering based on the profile picture URL
-    const profilePictureDisplay = this.profilePictureSrc
-      ? html`<img src="${this.profilePictureSrc}" alt="Profile Picture" style="width: 250px; height: 250px; border-radius: 50%;" />`
+    // Corrected conditional rendering
+    const profilePictureDisplay = profilePictureUrl
+      ? html`<img src="${profilePictureUrl}" alt="Profile Picture" style="width: 250px; height: 250px; border-radius: 50%;" />`
       : html`<img src="${initialsSVG}" alt="Profile Initials" style="width: 250px; height: 250px; border-radius: 50%;" />`;
+
 
 
     return html`
@@ -229,8 +224,8 @@ export class ProfilePage extends BaseComponent {
           z-index: 1; /* Sit on top */
           left: 0;
           top: 0;
-          width: 100%; /* Full width */
-          height: 100%; /* Full height */
+          width: 100%;
+          height: 100%; 
           overflow: auto; /* Enable scroll if needed */
           background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
           display: flex;
@@ -246,7 +241,7 @@ export class ProfilePage extends BaseComponent {
   top: 225px;
   border: 1px solid #888;
   width: 80%;
-  max-width: 500px; /* Adjust as per your design */
+  max-width: 500px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
@@ -341,7 +336,7 @@ export class ProfilePage extends BaseComponent {
 </style>
 
       <div>
-        <x-nav hasAdmin="true" hasDashboard="true" hasChat="true" hasLogout="true" hasUserProfile="true" />
+        <x-nav hasAdmin="true" hasHelpdesk="true" hasDashboard="true" hasChat="true" hasLogout="true" hasUserProfile="true" />
 
         <div class="profile-container">
           <!-- Profile Section -->
@@ -377,17 +372,18 @@ export class ProfilePage extends BaseComponent {
               <span class="close" @click=${this.closeChangePasswordModal}>&times;</span>
               <h2 style="color: white;">Change Password</h2>
               <input type="password" id="oldPassword" placeholder="Old Password" />
-              <input type="password" id="newPassword" placeholder="New Password" />
+              <input type="password" id="new_password" placeholder="New Password" />
               <input type="password" id="confirmNewPassword" placeholder="Confirm New Password" />
               <button id="submitChange" @click=${() => {
-                const newPasswordInput = document.querySelector('#newPassword');
+                const newPasswordInput = document.querySelector('#new_password');
                 const confirmPasswordInput = document.querySelector('#confirmNewPassword');
-                const newPassword = newPasswordInput.value;
+                const new_password = newPasswordInput.value;
                 const confirmPassword = confirmPasswordInput.value;
-                this.changePasswordHandler(newPassword, confirmPassword);
+                this.changePasswordHandler(new_password, confirmPassword);
                 }}>Submit</button>
             </div>
           </div>
+
           <!-- Delete User Modal -->
           <div id="deleteUserModal" class="modal" style="display: none;">
             <div class="modal-content">
@@ -400,14 +396,17 @@ export class ProfilePage extends BaseComponent {
           </div>
           <!-- Change Profile Picture Modal -->
           <div id="changePFPModal" class="modal" style="display: none;">
-            <div class="modal-content">
-              <span class="close" @click=${this.closeChangePFPModal}>&times;</span>
-              <h2 style="color: white;">Change Profile Picture</h2>
-              <input type="file" id="profilePictureInput" accept="image/*" />
-              <button @click=${this.submitProfilePicture}>Submit</button>
+            <div class="modal-content" style="border-radius: 10px; padding: 20px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); width: auto; max-width: 480px; margin: 10% auto;">
+              <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <span class="close" @click=${this.closeChangePFPModal}>&times;</span>
+                <h2 style="font-size: 1.5rem; color: white;">Change Profile Picture</h2>
+              </div>
+              <div style="text-align: center;">
+                <input type="file" id="profilePictureInput" accept="image/*" style="margin-bottom: 20px;" />
+                <button @click=${this.submitProfilePicture} style="background-color: #00aaff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 1rem;">Submit</button>
+              </div>
             </div>
-          </div>
-        </div>
+          </div>       
     `;
   }
 }

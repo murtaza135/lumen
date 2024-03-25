@@ -18,6 +18,7 @@ export const router = createRouter({
     { path: '/file/:id', html: html`<file-page />` },
     { path: '/create-group', html: html`<create-group-page />` },
     { path: '/manage-group/:id', html: html`<manage-group-page />` },
+    { path: '/helpdesk', html: html`<helpdesk-page />` },
     { path: '/admin', html: html`<admin-page />` },
   ],
 });

@@ -18,7 +18,7 @@ export class MainPage extends BaseComponent {
       ${getLoggedInUser() && getUserId() && getToken()
         ? html`
           <setup-sockets />
-          <x-nav hasAdmin="true" hasDashboard="true" hasChat="true" hasLogout="true" hasUserProfile="true" />
+          <x-nav hasAdmin="true" hasHelpdesk="true" hasDashboard="true" hasChat="true" hasLogout="true" hasUserProfile="true" />
         `
         : html`<x-nav hasLogin="true" hasRegister="true" />`
       }

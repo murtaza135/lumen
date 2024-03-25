@@ -25,7 +25,7 @@ export class FilePage extends BaseComponent {
         <setup-sockets />
         <error-toast />
         <success-toast />
-        <x-nav hasAdmin="true" hasDashboard="true" hasLogout="true" hasUserProfile="true" />
+        <x-nav hasAdmin="true" hasHelpdesk="true" hasDashboard="true" hasLogout="true" hasUserProfile="true" />
 
         <div class="container h-100 mb-auto pb-3 flex-grow-1 d-flex flex-column">
           <div class="d-flex justify-content-between align-items-center gap-3 flex-wrap py-2 border-bottom border-gray mb-3">

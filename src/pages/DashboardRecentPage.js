@@ -19,7 +19,7 @@ export class DashboardRecentPage extends BaseComponent {
       ${this.addModal.state.isOpen ? html`<add-modal />` : null}
       <add-button />
       
-      <x-nav hasAdmin="true" hasChat="true" hasLogout="true" hasUserProfile="true" />
+      <x-nav hasAdmin="true" hasHelpdesk="true" hasChat="true" hasLogout="true" hasUserProfile="true" />
 
       <div class="container h-100 mb-auto">
         <dashboard-nav />
