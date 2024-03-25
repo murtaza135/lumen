@@ -29,6 +29,7 @@ export class AuthGuard extends BaseComponent {
 
       if (!isUserAccessTokenAvailable || isErrorGettingUserProfile) {
         this.logout.actions.mutate().finally(() => {
+          console.log('auth guard close socket');
           closeSocket('global');
           history.replace('/login');
           window.location.reload();

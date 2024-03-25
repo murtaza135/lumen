@@ -22,7 +22,7 @@ export class SetupSockets extends BaseComponent {
 
   effectBefore() {
     const name = getLoggedInUser()?.first_name;
-
+    console.log('setupsockets name:', name);
     if (name) {
       const receiveMessage = (data) => {
         const chatFriendsGroups = stateManager.slice('chatFriendsGroups');
@@ -43,6 +43,8 @@ export class SetupSockets extends BaseComponent {
         zoom.startAudio();
         zoom.show();
       };
+
+      console.log('setupscokets socket handlers');
 
       socket('global')?.on('receive_message', receiveMessage);
       socket('global')?.on('start_call', startCall);
