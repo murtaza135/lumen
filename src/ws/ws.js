@@ -9,12 +9,11 @@ const sockets = {
 export function socket(namespace) {
   const token = getToken();
   if (!token) return null;
-  console.log('call socket @ ws/socket');
 
   const namespaceVal = namespace.toLowerCase();
   if (!sockets[namespaceVal]) {
-    console.log('creating socket @ ws/socket');
     sockets[namespaceVal] = io(`${config.urls.ws}/${namespaceVal}`, {
+      autoConnect: true,
       reconnectionDelayMax: 10000,
       query: { token: getToken() },
     });
@@ -24,7 +23,6 @@ export function socket(namespace) {
 }
 
 export function closeSocket(namespace) {
-  console.log('closeSocket @ ws/closeSocket');
   const namespaceVal = namespace.toLowerCase();
   const socketItem = sockets[namespaceVal];
   if (!socketItem) return null;
