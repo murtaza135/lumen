@@ -61,6 +61,7 @@ export class ZoomAcceptRejectPanel extends BaseComponent {
     const tpc = this.tpc;
     const name = capitaliseWords(getLoggedInUser().first_name);
     this.reset();
+    ringtone.pause();
     await zoom.join(zoomToken, tpc, name);
     zoom.startAudio();
     zoom.show();

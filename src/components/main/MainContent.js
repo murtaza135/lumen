@@ -21,11 +21,11 @@ export class MainContent extends BaseComponent {
             <h2 style="text-align: center; font-size: 32px; font-weight: bold;">Welcome to Lumen</h2>
               <br>
               <p class="fw-medium">
-                It is time brighten the world one message at the time. We are thrilled to have you as a user to our first project! 
+                It is time to brighten the world one message at the time. We are thrilled to have you as a user for our first project!
                 <br><br>
-                LUMEN is not just a chat application, it is a platform developed to brighten your day, fostering worthwhile conversations and helping you to connect. Whether you are here to chat with friends and families or collaborating with your organisation, LUMEN will suit your needs.   
+                LUMEN is not just a chat application, it is a platform developed to brighten your day, fostering worthwhile conversations and helping you to connect with others. Whether you are here to chat with friends or families, or collaborating with your organisation, LUMEN will suit your needs.
                 <br><br>
-                With LUMENS user-friendly design, we are dedicated to providing you with an explicit messenger application. LUMEN could be used to one-to-one conversations or group chats with, share and receive pictures, or collaborate with different files. LUMEN offers everything you would need, to stay up to date with other users.  
+                With LUMEN’s user-friendly design, we are dedicated to providing you with an explicit messenger application. LUMEN could be used to have one-to-one conversations, group chats, share and receive pictures, or collaborate on different files. LUMEN offers everything you would need to stay up to date with other users. 
                 <br><br>
                 However, LUMEN is not just a tool – it is a way to connect! Welcome to LUMEN – where every conversation brightens your day! 
                 <br><br>

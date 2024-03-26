@@ -1,8 +1,18 @@
-import { RegExpMatcher, TextCensor, englishDataset, englishRecommendedTransformers } from 'obscenity';
+import { RegExpMatcher, TextCensor, englishDataset, englishRecommendedTransformers, assignIncrementingIds, pattern } from 'obscenity';
+
+const additionalWords = [
+  pattern`twat`,
+  pattern`wanker`,
+];
 
 const matcher = new RegExpMatcher({
   ...englishDataset.build(),
   ...englishRecommendedTransformers,
+  blacklistedTerms: assignIncrementingIds(
+    englishDataset.build().blacklistedTerms
+      .map((value) => value.pattern)
+      .concat(additionalWords),
+  ),
 });
 
 const censor = new TextCensor()

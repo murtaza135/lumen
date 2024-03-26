@@ -66,20 +66,22 @@ export class ChatMainContent extends BaseComponent {
       `;
     }
 
+    const messages = this.messages.state.data.map((message) => html`
+        <chat-message
+          name=${message.userName}
+          timestamp=${message.timestamp}
+          message=${message.content}
+          fileId=${message.files?.[0]?.fileID}
+          fileSrc=${message.files?.[0]?.fileSrc}
+          fileName=${message.files?.[0]?.fileName}
+          fileType=${message.files?.[0]?.mimeType}
+        />
+      `);
+
     return html`
       <div class="chat-main-content position-relative d-flex flex-column flex-grow-1 gap-4">
         <div class="flex-grow-1 d-flex flex-column justify-content-end gap-4">
-          ${this.messages.state.data.map((message) => html`
-            <chat-message
-              name=${message.userName}
-              timestamp=${message.timestamp}
-              message=${message.content}
-              fileId=${message.files?.[0]?.fileID}
-              fileSrc=${message.files?.[0]?.fileSrc}
-              fileName=${message.files?.[0]?.fileName}
-              fileType=${message.files?.[0]?.mimeType}
-            />
-          `)}
+          ${messages}
         </div>
 
         <div class="position-sticky bottom-0 pb-3 flex-shrink-0 bg-white mt-auto">
