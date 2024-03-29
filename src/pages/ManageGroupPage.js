@@ -13,6 +13,7 @@ export class ManageGroupPage extends BaseComponent {
       <setup-sockets />
       <error-toast />
       <success-toast />
+      <chat-notification />
       <x-backdrop stateSlice="addModal" />
       <add-modal />
       <x-nav hasAdmin="true" hasDashboard="true" hasChat="true" hasLogout="true" hasUserProfile="true" />

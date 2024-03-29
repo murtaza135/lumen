@@ -34,7 +34,7 @@ export class GroupsTable extends BaseComponent {
       <table class="table mt-1">
         <tbody>
           ${groups.length === 0
-        ? html`You have not joined or created any groups.`
+        ? [html`You have not joined or created any groups.`]
         : groups.map((group) => html`
             <tr class="py-4">
               <th scope="row"><i class="fa-solid fa-user-group text-primary translate-y-3"></i></th>
@@ -42,7 +42,7 @@ export class GroupsTable extends BaseComponent {
               <td>
                 <div class="d-flex align-items-center justify-content-end gap-3">
                   <x-link href=${`/manage-group/${group.group_id}`} class="translate-y-3">
-                    <i class="fa-solid fa-circle-info fs-4 cursor-pointer hover-opacity text-primary"></i>
+                    <i class="fa-solid fa-gear fs-5 cursor-pointer hover-opacity text-primary"></i>
                   </x-link>
                   <button @click=${() => navigateChat({ id: group.group_id, name: group.group_name, type: 'group' }, '/chat')} class="w-6 h-6 hover-opacity -translate-y-2">
                     <img src=${chatDotsFillImg} alt="Chat" width="25" />

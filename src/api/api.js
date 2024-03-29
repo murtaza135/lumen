@@ -36,6 +36,7 @@ export const api = ky.create({
 
         const isLoginRequest = path === 'login' && request.method === 'POST';
         const isMeRequest = path === `get_user_info/${userId}` && request.method === 'GET';
+        const isDeleteRequest = path.search(/^delete_user\/.*/) !== -1 && request.method === 'DELETE';
 
         // set auth data in local storage after successful login
         if (isLoginRequest) {
@@ -48,6 +49,11 @@ export const api = ky.create({
         } else if (isMeRequest && (response.status === 200)) {
           const data = await response.clone().json();
           localStorage.setItem('auth', JSON.stringify({ ...data, id: userId }));
+        } else if (isDeleteRequest) {
+          if (response.status === 200 || response.status === 201) {
+            localStorage.removeItem('token');
+            localStorage.removeItem('auth');
+          }
         }
       },
     ],

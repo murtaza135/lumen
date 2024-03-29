@@ -16,6 +16,7 @@ export class AdminPage extends BaseComponent {
       <setup-sockets />
       <error-toast />
       <success-toast />
+      <chat-notification />
       
       <x-nav hasDashboard="true" hasChat="true" hasLogout="true" hasUserProfile="true" />
 

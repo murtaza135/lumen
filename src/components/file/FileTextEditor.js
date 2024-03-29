@@ -100,7 +100,11 @@ export class FileTextEditor extends BaseComponent {
   effect() {
     if (!!this.downloadFile.state.data && this.downloadFile.state.data.ext === 'trix') {
       const trix = this.trixRef.element;
-      trix.editor.loadJSON(JSON.parse(this.downloadFile.state.data.file));
+      try {
+        trix.editor.loadJSON(JSON.parse(this.downloadFile.state.data.file));
+      } catch {
+        console.log('error: could not load file');
+      }
     }
   }
 

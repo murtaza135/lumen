@@ -13,6 +13,7 @@ export class DashboardGroupsPage extends BaseComponent {
       <setup-sockets />
       <error-toast />
       <success-toast />
+      <chat-notification />
 
       <x-backdrop stateSlice="addModal" />
       <add-modal />

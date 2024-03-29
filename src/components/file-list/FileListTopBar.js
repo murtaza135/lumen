@@ -61,7 +61,8 @@ export class FileListTopBar extends BaseComponent {
 
     if (isFileValid) {
       const fileNameWithoutExt = file.name.split('.').slice(0, file.name.split('.').length - 1).join('');
-      const parsedFile = fileExt === 'txt' ? new File([textToTrix(await file.text())], `${fileNameWithoutExt}.trix`, { type: 'text/plain' }) : file;
+      const text = (await file.text()).replaceAll(/\r\n/g, '\\n');
+      const parsedFile = fileExt === 'txt' ? new File([textToTrix(text)], `${fileNameWithoutExt}.trix`, { type: 'text/plain' }) : file;
       const formData = new FormData();
       formData.append('file', parsedFile);
       formData.append('group_id', this.chatFriendsGroups.state.activeFriendOrGroup.id);

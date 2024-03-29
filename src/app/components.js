@@ -52,6 +52,7 @@ import { ChatLoader } from '@/components/chat/ChatLoader';
 import { SetupSockets } from '@/components/general/SetupSockets';
 import { ChatLoadingMain } from '@/components/chat/chat-loading/ChatLoadingMain';
 import { ChatMembersMain } from '@/components/chat/chat-members/ChatMembersMain';
+import { ChatNotification } from '@/components/chat/ChatNotification';
 
 createComponents({
   'x-form': Form,
@@ -107,4 +108,5 @@ createComponents({
   'setup-sockets': SetupSockets,
   'chat-loading-main': ChatLoadingMain,
   'chat-members-main': ChatMembersMain,
+  'chat-notification': ChatNotification,
 });

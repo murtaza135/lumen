@@ -13,6 +13,7 @@ export class CreateGroupPage extends BaseComponent {
       <setup-sockets />
       <error-toast />
       <success-toast />
+      <chat-notification />
       <x-nav hasAdmin="true" hasHelpdesk="true" hasDashboard="true" hasChat="true" hasLogout="true" hasUserProfile="true" />
 
       <div class="container h-100 center my-auto">

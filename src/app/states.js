@@ -10,6 +10,7 @@ import { GroupManagementSlice } from '@/states/GroupManagementSlice';
 import { AdminSlice } from '@/states/AdminSlice';
 import { AddFileModalSlice } from '@/states/AddFileModalSlice';
 import { FileListSlice } from '@/states/FileListSlice';
+import { ChatNotificationSlice } from '@/states/ChatNotificationSlice';
 
 stateManager.createSlices({
   success: SuccessSlice,
@@ -23,4 +24,5 @@ stateManager.createSlices({
   admin: AdminSlice,
   addFileModal: AddFileModalSlice,
   fileList: FileListSlice,
+  chatNotification: ChatNotificationSlice,
 });

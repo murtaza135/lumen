@@ -23,13 +23,9 @@ export class ChatMainContent extends BaseComponent {
     if (!this.chatFriendsGroups.state.activeFriendOrGroup.id) {
       return html`
         <div class="chat-main-content position-relative d-flex flex-column flex-grow-1 gap-5">
-          <div class="flex-grow-1 d-flex flex-column justify-content-end gap-4 align-items-center pb-5">
+          <div class="flex-grow-1 d-flex flex-column justify-content-center gap-4 align-items-center pb-5">
             <i class="fa-solid fa-hand-pointer text-primary chat-bubble-size"></i>
             <p class="text-primary fs-4 fw-semibold text-center">Please select a group or friend</p>
-          </div>
-
-          <div class="position-sticky bottom-0 pb-3 flex-shrink-0 bg-white mt-auto">
-            <chat-box />
           </div>
         </div>
       `;
@@ -91,3 +87,9 @@ export class ChatMainContent extends BaseComponent {
     `;
   }
 }
+
+/*
+<div class="position-sticky bottom-0 pb-3 flex-shrink-0 bg-white mt-auto">
+  <chat-box />
+</div>
+*/

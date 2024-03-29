@@ -117,6 +117,7 @@ export class ProfilePage extends BaseComponent {
       .then(() => {
         console.log('Account deleted successfully.');
         history.push('/login');
+        window.location.reload();
       })
       .catch((error) => {
         console.error('Error deleting account:', error);
@@ -155,6 +156,7 @@ export class ProfilePage extends BaseComponent {
       <setup-sockets />
       <error-toast/>
       <success-toast />
+      <chat-notification />
 
       <style>
 

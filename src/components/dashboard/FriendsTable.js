@@ -49,7 +49,7 @@ export class FriendsTable extends BaseComponent {
       <table class="table mt-1">
         <tbody>
           ${friendRequests.length === 0
-        ? html`You have no friend requests.`
+        ? [html`You have no friend requests.`]
         : friendRequests.map((friend) => html`
             <tr class="py-4">
               <th scope="row"><i class="fa-solid fa-user text-primary translate-y-3"></i></th>
@@ -73,7 +73,7 @@ export class FriendsTable extends BaseComponent {
       <table class="table mt-1">
         <tbody>
           ${friends.length === 0
-        ? html`You have no friends.`
+        ? [html`You have no friends.`]
         : friends.map((friend) => html`
             <tr class="py-4">
               <th scope="row"><i class="fa-solid fa-user text-primary translate-y-3"></i></th>

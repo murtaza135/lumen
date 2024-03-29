@@ -19,6 +19,7 @@ export class FileListPage extends BaseComponent {
       <setup-sockets />
       <error-toast />
       <success-toast />
+      <chat-notification />
 
       <x-backdrop stateSlice="addFileModal" />
       <add-file-modal />

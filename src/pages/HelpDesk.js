@@ -1,4 +1,6 @@
 import { BaseComponent, html } from 'framework';
+import { downloadSrc } from '@/utils/download';
+import userGuideFile from '@/assets/files/LUMEN USER MANUAL.pdf';
 
 export class HelpdeskPage extends BaseComponent {
   // Constructor if you need to initialise state or bind methods
@@ -9,7 +11,7 @@ export class HelpdeskPage extends BaseComponent {
 
   // A helper method to render a single FAQ entry
   renderFAQ(question, answer) {
-      return html`
+    return html`
       <div class="faq-item">
         <h4 class="faq-question">${question}</h4>
         <p class="faq-answer">${answer}</p>
@@ -19,11 +21,12 @@ export class HelpdeskPage extends BaseComponent {
 
   // The main render method for the page
   render() {
-      return html`
+    return html`
         <auth-guard />
         <setup-sockets />
         <error-toast/>
         <success-toast />
+        <chat-notification />
 
       <style>
         .helpdesk-container {
@@ -52,6 +55,13 @@ export class HelpdeskPage extends BaseComponent {
 
     <div>
         <x-nav hasAdmin="true" hasHelpdesk="true" hasDashboard="true" hasChat="true" hasLogout="true" hasUserProfile="true" />  
+
+        <div class="helpdesk-container">
+          <button @click=${() => downloadSrc(userGuideFile, 'Lumen User Guide')} class="hover-opacity">
+            <i class="fa-solid fa-download fs-5 text-primary me-2"></i>
+            <span>Download Lumen User Manual</span>
+          </button>
+        </div>
 
       <div class="helpdesk-container">
         <h2>Frequently Asked Questions (FAQs)</h2>

@@ -46,7 +46,7 @@ export class ChatMainTopBar extends BaseComponent {
   }
 
   startCall() {
-    const { id } = this.chatFriendsGroups.state.activeFriendOrGroup;
+    const { id, name } = this.chatFriendsGroups.state.activeFriendOrGroup;
     if (id) {
       socket('global')?.emit('startcall', {
         token: getToken(),
@@ -56,7 +56,7 @@ export class ChatMainTopBar extends BaseComponent {
 
     setTimeout(() => {
       if (!zoom.visible) {
-        this.error.actions.setError('Could not initiate call. Please try again later.');
+        this.error.actions.setError(`${capitaliseWords(name)} is not online.`);
       }
     }, 5000);
   }

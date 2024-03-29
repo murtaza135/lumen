@@ -14,6 +14,7 @@ export class DashboardRecentPage extends BaseComponent {
       <setup-sockets />
       <error-toast />
       <success-toast />
+      <chat-notification />
 
       <x-backdrop stateSlice="addModal" />
       ${this.addModal.state.isOpen ? html`<add-modal />` : null}

@@ -56,7 +56,7 @@ export class RecentGrid extends BaseComponent {
 
   async navigateToRecentChat({ isDirectMessage, userId, userName, groupId }) {
     if (isDirectMessage && !!userId && !!userName) {
-      navigateChat({ id: userId, name: userName, type: 'person' }, '/chat');
+      navigateChat({ id: userId, name: userName, type: 'friend' }, '/chat');
     } else if (!isDirectMessage && !!groupId) {
       try {
         const { name } = await singleGroupQuery(groupId).queryFn();

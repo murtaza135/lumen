@@ -24,7 +24,7 @@ export class AddModal extends BaseComponent {
     this.joinGroup = this.mutation(joinGroupMutation());
     this.leaveGroup = this.mutation(leaveGroupMutation());
 
-    // TODO move to effect
+    // TODO move to effect?
     this.searchUsers.actions.mutate('');
     this.searchGroups.actions.mutate('');
   }
@@ -35,18 +35,18 @@ export class AddModal extends BaseComponent {
     const dataRows = (() => {
       if (this.friendsGroups.state === 'friends') {
         if (this.searchUsers.state.status === 'loading') {
-          return html`<div class="center pt-3"><x-spinner variant="light" class="bg-primary" /></div>`;
+          return [html`<div class="center pt-3"><x-spinner variant="light" class="bg-primary" /></div>`];
         }
 
         if (this.searchUsers.state.status === 'error') {
-          return html`<p class="text-light fs-6 mt-2 ms-3">Could not load users.</p>`;
+          return [html`<p class="text-light fs-6 mt-2 ms-3">Could not load users.</p>`];
         }
 
         if (this.searchUsers.state.data.length === 0) {
-          return html`<p class="text-light fs-6 mt-2 ms-3">Could not find any users.</p>`;
+          return [html`<p class="text-light fs-6 mt-2 ms-3">Could not find any users.</p>`];
         }
 
-        return html`${this.searchUsers.state.data.map((friend) => html`
+        return this.searchUsers.state.data.map((friend) => html`
           <tr class="py-4">
             <th scope="row" class="bg-primary text-light"><i class="fa-solid fa-user"></i></th>
             <td class="bg-primary text-light">${friend.email}</td>
@@ -56,22 +56,22 @@ export class AddModal extends BaseComponent {
               </div>
             </td>
           </tr>
-        `)}`;
+        `);
       }
 
       if (this.searchGroups.state.status === 'loading') {
-        return html`<div class="center pt-3"><x-spinner/></div>`;
+        return [html`<div class="center pt-3"><x-spinner/></div>`];
       }
 
       if (this.searchGroups.state.status === 'error') {
-        return html`<p class="text-light fs-6 mt-2 ms-3">Could not load groups.</p>`;
+        return [html`<p class="text-light fs-6 mt-2 ms-3">Could not load groups.</p>`];
       }
 
       if (this.searchGroups.state.data.length === 0) {
-        return html`<p class="text-light fs-6 mt-2 ms-3">Could not find any groups.</p>`;
+        return [html`<p class="text-light fs-6 mt-2 ms-3">Could not find any groups.</p>`];
       }
 
-      return html`${this.searchGroups.state.data.map((group) => html`
+      return this.searchGroups.state.data.map((group) => html`
         <tr class="py-4">
           <th scope="row" class="bg-primary text-light"><i class="fa-solid fa-user-group"></i></th>
           <td class="bg-primary text-light">${capitaliseWords(group.group_name)}</td>
@@ -81,7 +81,7 @@ export class AddModal extends BaseComponent {
             </div>
           </td>
         </tr>
-      `)}`;
+      `);
     })();
 
     return html`
